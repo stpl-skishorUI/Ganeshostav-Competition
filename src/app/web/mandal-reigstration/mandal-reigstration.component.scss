@@ -12,3 +12,11 @@
     right: -10px;
     font-size: 0.8rem;
 }
+@media screen and (max-width:480px){
+    .prizes p{
+        font-size: 0.85rem;
+    }
+    .prizes h3{
+        font-size: 1.2rem;
+    }
+}
