@@ -32,6 +32,9 @@ body { margin: 0; font-family: 'Noto Sans Devanagari', sans-serif; }
     --main-dark-color:rgb(44,17,184);
     --main-light-color:rgb(235,231,252);
   }
+  .text-main{
+    color: var(--main-color);
+  }
   .bg-main{
     background-color: var(--main-color);
   }
@@ -48,4 +51,15 @@ body { margin: 0; font-family: 'Noto Sans Devanagari', sans-serif; }
   }
   .bg-light-main{
     background-color: var(--main-light-color);
+  }
+  .form-container{
+    font-size: 0.95rem;
+  }
+  .form-container .btn,
+  .form-container .form-select,
+  .form-container .form-label,
+  .form-container .form-control{
+    font-size: 0.95rem;
+    box-shadow: none;
+    margin-bottom: 0;
   }
