@@ -10,7 +10,10 @@ import { CommonService } from 'src/app/core/services/common.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private fb:FormBuilder,private commonService:CommonService,private apiService:ApiService) { }
+  constructor(private fb:FormBuilder,
+    private commonService:CommonService,
+    private apiService:ApiService
+    ) { }
   loginForm !:FormGroup;
   isSubmmited : boolean = false;
   hide : boolean =true
