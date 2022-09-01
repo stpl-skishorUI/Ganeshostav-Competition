@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   };
 
   get loginFormControls() { return this.loginForm.controls }
-
+  //event-creation/getAll?EventLevel=&DistrictId=0&MineralId=0&pageno=1&pagesize=10&TenderType=Active&IsPublished=1
   onSubmit() {
     this.isSubmmited = true;
     if (this.loginForm.invalid) {
