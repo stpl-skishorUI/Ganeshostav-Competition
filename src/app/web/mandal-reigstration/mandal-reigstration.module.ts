@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MandalReigstrationRoutingModule } from './mandal-reigstration-routing.module';
 import { MandalReigstrationComponent } from './mandal-reigstration.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { MandalReigstrationComponent } from './mandal-reigstration.component';
   ],
   imports: [
     CommonModule,
-    MandalReigstrationRoutingModule
+    MandalReigstrationRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class MandalReigstrationModule { }

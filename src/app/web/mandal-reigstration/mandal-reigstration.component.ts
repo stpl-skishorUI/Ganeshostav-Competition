@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-mandal-reigstration',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MandalReigstrationComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(
+    private apiService:ApiService, public fb:FormBuilder) { }
+  registrationForm:any
   ngOnInit(): void {
+
   }
 
+
+  defulatForm() {
+  this.registrationForm = this.fb.group({
+
+  })
+  }
+ 
 }
