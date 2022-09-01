@@ -1,7 +1,7 @@
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Noto Sans Devanagari', sans-serif; }
 .page-wrapper.toggled .sidebar {
     left: -300px;
   }
@@ -17,16 +17,35 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .ps .ps__rail-y.ps--clicking {
     background-color: transparent !important;
   }
-  
   .sidebar .ps.ps--active-y>.ps__rail-y:hover,
   .sidebar>.ps.ps--active-y>.ps__rail-y.ps--clicking {
     width: 10px !important;
   }
-  
   .ps__thumb-y {
     background-color: #fff !important;
     width: 6px!important;
     border-radius: 0px!important;
     opacity: .5;
-  
+  }
+  :root{
+    --main-color:rgb(55,22,231);
+    --main-dark-color:rgb(44,17,184);
+    --main-light-color:rgb(235,231,252);
+  }
+  .bg-main{
+    background-color: var(--main-color);
+  }
+  .btn-main:focus,
+  .btn-main{
+    background-color: var(--main-color);
+    color: #fff;
+    border: solid 1px var(--main-color) !important;
+  }
+  .btn-main:hover{
+    background-color: var(--main-dark-color);
+    color: #fff;
+    border: solid 1px var(--main-dark-color) !important;
+  }
+  .bg-light-main{
+    background-color: var(--main-light-color);
   }

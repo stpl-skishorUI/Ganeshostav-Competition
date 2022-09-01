@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AngularAdminTemplate": {
+    "GaneshostavCompetition": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/AngularAdminTemplate",
+            "outputPath": "dist/GaneshostavCompetition",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "AngularAdminTemplate:build:production"
+              "browserTarget": "GaneshostavCompetition:build:production"
             },
             "development": {
-              "browserTarget": "AngularAdminTemplate:build:development"
+              "browserTarget": "GaneshostavCompetition:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "AngularAdminTemplate:build"
+            "browserTarget": "GaneshostavCompetition:build"
           }
         },
         "test": {
@@ -107,5 +107,5 @@
       }
     }
   },
-  "defaultProject": "AngularAdminTemplate"
+  "defaultProject": "GaneshostavCompetition"
 }

@@ -1,0 +1,24 @@
+#login {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    max-width: 420px;
+}
+#login h4{
+    color: var(--main-color);
+    text-transform: uppercase;
+    border-bottom: solid 1px #ddd;
+    padding-bottom:10px;
+    font-weight: 700;
+}
+#login .form-label{
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #555;
+}
+#login .form-control{
+    font-size:1rem;
+    box-shadow:none
+}
