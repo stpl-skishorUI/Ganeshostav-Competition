@@ -171,6 +171,7 @@ export class MandalReigstrationComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
+          alert(res.statusMessage);
           this.registrationForm.reset();        
         } else {
 
