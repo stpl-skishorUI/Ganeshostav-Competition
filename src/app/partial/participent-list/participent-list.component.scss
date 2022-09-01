@@ -1,0 +1,23 @@
+.list-group .list-group-item{
+    border: 0;
+    border-radius: 0;    
+}
+.list-group .list-group-item:hover,
+.list-group .list-group-item.active{
+    background-color:var(--main-light-color) !important;
+    color: var(--main-color) !important;
+}
+.list-group h5{
+    font-size: 1rem;
+}
+.list-group{
+    max-height: 66.5vh;
+    overflow-y: auto;
+    border-radius: 0; 
+}
+.table{
+    font-size: 0.85rem;
+}
+.table th{
+    background-color: #eee;
+}
