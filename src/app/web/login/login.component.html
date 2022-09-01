@@ -1,21 +1,32 @@
 <div id="login">
     <div class="card shadow-lg border-0">
         <img src="assets/images/bg-template.png" class="card-img-top" alt="...">
-        <div class="card-body p-5 pt-3">
-            <h4 class="mb-4 text-center">Client Login</h4>
-            <div class="mb-3">
-                <label class="form-label mb-1">युजरनेम</label>
-                <input type="text" class="form-control" placeholder="युजरनेम">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="card-body p-5 pt-3">
+                <h4 class="mb-4 text-center">Client Login</h4>
+                <div class="mb-3">
+                    <label class="form-label mb-1">युजरनेम</label>
+                    <input type="text" class="form-control" formControlName="userName" placeholder="युजरनेम">
+                    <span *ngIf="loginFormControls['userName'].errors && isSubmmited">
+                        <span *ngIf="loginFormControls['userName'].hasError('required')"> Please Enter User Name </span>
+                        <span *ngIf="loginFormControls['userName'].hasError('pattern')"> Please Enter Valid User Name</span>
+                    </span>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label mb-1">पासवर्ड </label>
+                    <input [type]="hide ? 'password' : 'text'" class="form-control" placeholder="पासवर्ड " formControlName="password">
+                    <button (click)="hide = !hide" class="btn btn"> <i class="eye-icon-pos" [class]="hide ? 'fa fa-eye' : 'fa fa-eye-slash'"> </i></button>
+                    <span *ngIf="loginFormControls['password'].errors && isSubmmited">
+                        <span *ngIf="loginFormControls['password'].hasError('required')"> Please Enter Password </span>
+                        <span *ngIf="loginFormControls['password'].hasError('pattern')"> Please Enter Valid Password</span>
+                    </span>
+                </div>
+                <div class="mb-0 text-center">
+                    <button class="btn btn-main" type="submit">
+                        लॉगिन करा
+                    </button>
+                </div>
             </div>
-            <div class="mb-4">
-                <label class="form-label mb-1">पासवर्ड </label>
-                <input type="password" class="form-control" placeholder="पासवर्ड ">
-            </div>
-            <div class="mb-0 text-center">
-                <button class="btn btn-main">
-                    लॉगिन करा
-                </button>
-            </div>
-        </div>
+        </form>      
     </div>
 </div>
