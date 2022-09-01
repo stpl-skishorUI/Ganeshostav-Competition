@@ -8,25 +8,14 @@ import { CommonService } from './common.service';
 })
 export class ApiService {
 
-  stateId = 1 // default sel state id
-  modalSize = ['320px', '400px', '700px', '1024px']; // modal size
-  disableCloseFlag:boolean = true//modal disableCloseFlag
-  UserLoginDetails: any;
-  userObj: any;
-  tokanExpiredFlag: boolean = false;
-  pagesize:Number= 100 // admin add page pagintion length
-
-  constructor(private http: HttpClient, 
+  constructor( private http: HttpClient,
      private titleCasePipe: TitleCasePipe,
      private commonService:CommonService) { }
 //-------------------------------------------web configuration var -------------------------//
 
   getBaseurl(url: string) {
     switch (url) {
-      case 'bidderUrl': return 'https://awseauction-bidder.mahamining.com/bidder/'; break;
-      case 'masterUrl': return 'https://awseauction-master.mahamining.com/master/'; break;
-      case 'mineralUrl': return 'https://awsmineral-project.mahamining.com/mineral-project/'; break;
-      case 'bidding': return 'https://awseauction-bidding.mahamining.com/bidding/'; break;
+      case 'masterUrl': return 'https://festivalcompetition.mahamining.com/'; break;
       default: return ''; break;
     }
   }

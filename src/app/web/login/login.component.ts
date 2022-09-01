@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/core/services/api.service';
+import { CommonService } from 'src/app/core/services/common.service';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private fb:FormBuilder) { }
+  constructor(private fb:FormBuilder,private commonService:CommonService,private apiService:ApiService) { }
   loginForm !:FormGroup;
   isSubmmited : boolean = false;
   hide : boolean =true
@@ -32,6 +34,6 @@ export class LoginComponent implements OnInit {
       return;
     }
     console.log(this.loginForm.value);
-  }
+  } 
 
 }
