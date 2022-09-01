@@ -66,6 +66,8 @@
   display: flex;
   align-items: center;
   flex-grow: 1;
+  text-transform: uppercase;
+  font-weight: 900;
 }
 .sidebar .sidebar-content .sidebar-header > a {
   text-transform: uppercase;
@@ -174,7 +176,7 @@
   color: #353535;
 }
 .sidebar.sidebar-bg .sidebar-menu {
-  border-top: 1px solid #d9d9d9;
+  border-top: 1px solid #eee;
   color: #353535;
 }
 .sidebar.sidebar-bg .sidebar-menu .sidebar-dropdown div {
