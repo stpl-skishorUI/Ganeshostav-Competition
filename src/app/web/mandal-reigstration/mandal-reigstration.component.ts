@@ -19,7 +19,7 @@ export class MandalReigstrationComponent implements OnInit {
     public error: ErrorsService, private router: Router,
     public spinner: NgxSpinnerService) { }
   registrationForm: any;
-  zpNameArr: any;
+  zpNameArr: any[]=[];
   memberArray: any[] = [];
   competitionType: any;
   isSubmmited: boolean = false
@@ -79,6 +79,7 @@ export class MandalReigstrationComponent implements OnInit {
             }
           })
           this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "clientId": 1 })
+          console.log(this.zpNameArr);
         } else {
           this.commonService.showError(res.statusMessage);
         }
@@ -207,6 +208,7 @@ export class MandalReigstrationComponent implements OnInit {
     } else {
       temp['competitionId'] = 2;
     }
+    let clientId = this.href.includes('maan.erpguru.in') ? 1 : 2;
     let obj = {
       "createdBy": 0,
       "modifiedBy": 0,
@@ -216,7 +218,7 @@ export class MandalReigstrationComponent implements OnInit {
       "id": 0,
       "competitionTypeId": this.competitionType,
       "zpgatId": formData.zpgatId,
-      "clientId": 0,
+      "clientId":clientId,
       "villageName": formData.villageName,
       "personName": this.competitionType == 1 ? formData.personName : formData.selfPersonName,
       "amount": 0,
