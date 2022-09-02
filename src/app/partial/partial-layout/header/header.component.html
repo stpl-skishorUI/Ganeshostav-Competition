@@ -47,12 +47,14 @@
                 </div>                    
             </div>
             <div class="modal-body text-center">
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-                    <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10"
-                        cx="65.1" cy="65.1" r="62.1" />
-                    <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round"
-                        stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
-                </svg>
+                <div class="success-checkmark mb-3">
+                    <div class="check-icon">
+                        <span class="icon-line line-tip"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
+                </div>
                 <h6 class="my-3">Do you really want to logout?</h6>
                 <button class="btn btn-sm btn-secondary me-2 px-4" data-bs-dismiss="modal" type="button">NO</button>
                 <button class="btn btn-sm btn-main px-4" type="button" (click)="logOut()" data-bs-dismiss="modal"
