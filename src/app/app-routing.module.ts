@@ -26,7 +26,7 @@ import { PageNotFoundComponent } from './core/errors/page-not-found/page-not-fou
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'registrations', pathMatch: 'full' },
   { path: '', component: WebLayoutComponent,  loadChildren: () => import('./web/web-layout/web-layout.module').then(m => m.WebLayoutModule) },
   {
     path: '',

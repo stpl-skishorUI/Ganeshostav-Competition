@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
   
   logOut() {
     localStorage.clear();
-    this.router.navigate(['../home'], { relativeTo: this.route });
+    this.router.navigate(['../registrations'], { relativeTo: this.route });
   }
 
 }
