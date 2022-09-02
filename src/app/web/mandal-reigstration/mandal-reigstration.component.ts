@@ -417,7 +417,7 @@ export class MandalReigstrationComponent implements OnInit {
       "txnid": this.hashObj.tranId,
       "amount": this.amount,
       "firstname": this.sendPayObj.personName,
-      "email": 'somnathkhabale1999@gmail.com',
+      "email": 'stplact@gmail.com',
       "phone": this.sendPayObj.mobileNo,
       "productinfo": "vtsamc",
       "hash": this.hashObj.hash,
