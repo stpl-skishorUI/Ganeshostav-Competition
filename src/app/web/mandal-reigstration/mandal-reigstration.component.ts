@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/core/services/api.service';
+import { CommonService } from 'src/app/core/services/common.service';
 import { ErrorsService } from 'src/app/core/services/errors.service';
 import { MultipleFileUploadService } from 'src/app/core/services/multiple-file-upload.service';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-mandal-reigstration',
   templateUrl: './mandal-reigstration.component.html',
@@ -12,17 +13,20 @@ import { MultipleFileUploadService } from 'src/app/core/services/multiple-file-u
 export class MandalReigstrationComponent implements OnInit {
 
   constructor(
-    private apiService: ApiService, public fb: FormBuilder ,public multipleFileUploadSe : MultipleFileUploadService,
-    public error:ErrorsService) { }
+    private apiService: ApiService, public fb: FormBuilder, public multipleFileUploadSe: MultipleFileUploadService,
+    public commonService:CommonService,
+    public error: ErrorsService,
+    public spinner:NgxSpinnerService) { }
   registrationForm: any;
   zpNameArr: any;
   memberArray: any[] = [];
   competitionType: any;
-  isSubmmited:boolean = false
+  isSubmmited: boolean = false
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild('fileInput1') fileInput1!: ElementRef;
   competitionTypeArray = [{ "id": 1, "competitionName": "सार्वजनिक गणेशोत्सव स्पर्धा " }, { "id": 2, "competitionName": "घरगुती गौरी सजावट स्पर्धा " }]
   ngOnInit(): void {
+   
     this.defulatForm();
     this.getZPName();
   }
@@ -34,15 +38,15 @@ export class MandalReigstrationComponent implements OnInit {
       "zpgatId": ['', Validators.required],
       "clientId": [''],
       "villageName": ['', Validators.required],
-      "personName": ['',[Validators.required] ],
-      "leadername": ['',[Validators.required]],
-      "leaderMobileNo": ['',[Validators.required]],
-      "vicLeadername": ['',[Validators.required]],
-      "vicleadermobileNo": ['',[Validators.required]],
+      "personName": ['', [Validators.required]],
+      "leadername": ['', [Validators.required]],
+      "leaderMobileNo": ['', [Validators.required]],
+      "vicLeadername": ['', [Validators.required]],
+      "vicleadermobileNo": ['', [Validators.required]],
       "memberName": [''],
       "memberMobileNo": [''],
       "amount": 0,
-      "paymentScreenPath": ['' ],
+      "paymentScreenPath": [''],
       "videoPath": ['',],
       "paymentId": [''],
       "paymentStatus": [''],
@@ -51,8 +55,8 @@ export class MandalReigstrationComponent implements OnInit {
       "moreInfo": ['', Validators.required],
       "selfPersonName": [''],
       'selfPersonMobile': [''],
-      "imagePath":[''],
-      "videopath":['']
+      "imagePath": [''],
+      "videopath": ['']
     })
     this.competitionType = 1;
   }
@@ -79,9 +83,9 @@ export class MandalReigstrationComponent implements OnInit {
 
   addMember() {
     this.registrationForm.get('memberName')?.setValidators([Validators.required]);
-      this.registrationForm.controls["memberName"].updateValueAndValidity();
+    this.registrationForm.controls["memberName"].updateValueAndValidity();
     this.registrationForm.get('memberMobileNo')?.setValidators([Validators.required]);
-      this.registrationForm.controls["memberMobileNo"].updateValueAndValidity();
+    this.registrationForm.controls["memberMobileNo"].updateValueAndValidity();
     if (this.f.memberName.status == 'VALID' && this.f.memberMobileNo.status == 'VALID') {
       let obj = {
         "createdBy": 0,
@@ -118,7 +122,7 @@ export class MandalReigstrationComponent implements OnInit {
 
   checkCompetitionType(data: any) {
     this.competitionType = data.id;
-    if(this.competitionType ==1){
+    if (this.competitionType == 1) {
       this.registrationForm.controls["selfPersonName"].setValue('');
       this.registrationForm.controls["selfPersonMobile"].setValue('');
       this.registrationForm.controls["selfPersonName"].clearValidators();
@@ -137,21 +141,21 @@ export class MandalReigstrationComponent implements OnInit {
       this.registrationForm.get('vicleadermobileNo')?.setValidators([Validators.required]);
       this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
 
-    }else if(this.competitionType == 2) {
+    } else if (this.competitionType == 2) {
       this.registrationForm.controls["personName"].setValue('');
       this.registrationForm.controls["personName"].clearValidators();
       this.registrationForm.controls["personName"].updateValueAndValidity();
       this.registrationForm.controls["leadername"].setValue('');
-      this.registrationForm.controls["leadername"].clearValidators();      
+      this.registrationForm.controls["leadername"].clearValidators();
       this.registrationForm.controls["leadername"].updateValueAndValidity();
       this.registrationForm.controls["leaderMobileNo"].setValue('');
-      this.registrationForm.controls["leaderMobileNo"].clearValidators();   
+      this.registrationForm.controls["leaderMobileNo"].clearValidators();
       this.registrationForm.controls["leaderMobileNo"].updateValueAndValidity();
       this.registrationForm.controls["vicLeadername"].setValue('');
-      this.registrationForm.controls["vicLeadername"].clearValidators();   
+      this.registrationForm.controls["vicLeadername"].clearValidators();
       this.registrationForm.controls["vicLeadername"].updateValueAndValidity();
       this.registrationForm.controls["vicleadermobileNo"].setValue('');
-      this.registrationForm.controls["vicleadermobileNo"].clearValidators(); 
+      this.registrationForm.controls["vicleadermobileNo"].clearValidators();
       this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
 
       this.registrationForm.get('selfPersonName')?.setValidators([Validators.required]);
@@ -165,10 +169,11 @@ export class MandalReigstrationComponent implements OnInit {
   }
 
   submitData() {
-    this.isSubmmited =true;
-    if(this.registrationForm.invalid){
+    this.isSubmmited = true;
+    if (this.registrationForm.invalid) {
       return
     }
+    this.spinner.show();
     let formData = this.registrationForm.value;
     let temp = {
       "createdBy": 0,
@@ -214,21 +219,27 @@ export class MandalReigstrationComponent implements OnInit {
       "marks": 0,
       "moreInfo": formData.moreInfo,
       "competitionMembers": this.memberArray,
-      "mobileNo":"",
+      "mobileNo": "",
       "compettionImage": this.galleryImagArray
     }
     this.apiService.setHttp('post', "api/Competition", false, obj, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
-          alert(res.statusMessage);
-          this.registrationForm.reset();        
+          this.commonService.showError(res.showSuccess);
+          this.spinner.hide();
+          this.registrationForm.reset();
+          this.registrationForm.controls["zpgatId"].setValue('');
+          this.competitionType = 1;
+          this.videopath = '';
+          this.galleryImagArray = [];
         } else {
-
+          this.spinner.hide()
+          this.commonService.showError(res.statusMessage);
         }
       },
       error: ((error: any) => {
-         this.error.handelError(error.status) 
+        this.error.handelError(error.status)
       })
     })
 
@@ -241,7 +252,7 @@ export class MandalReigstrationComponent implements OnInit {
     documentUrl.subscribe({
       next: (ele: any) => {
         if (ele.responseData != null) {
-          ele.responseData.forEach((element:any) => {
+          ele.responseData.forEach((element: any) => {
             let obj =
             {
               "createdBy": 0,
@@ -268,24 +279,29 @@ export class MandalReigstrationComponent implements OnInit {
     this.fileInput.nativeElement.value = '';
   }
 
-  videopath:any;
+  videopath: any;
   videoPath(event: any) { //multiple Image Upload
+  this.spinner.show();
     let documentUrl: any = this.multipleFileUploadSe.uploadDocuments(event, "uploads", "mp4,FLV,F4V,AVI,MKV");
     documentUrl.subscribe({
       next: (ele: any) => {
         if (ele.responseData != null) {
-          ele.responseData.forEach((element:any) => {            
-            this.videopath =element.filePath;
-            
+          ele.responseData.forEach((element: any) => {
+            this.videopath = element.filePath;
+            this.spinner.hide();
+            this.commonService.showSuccess('Video uploaded successfully');
           });
+        }else{
+          // this.commonService.showSuccess('image uploaded successfully');
         }
+
       },
     })
     this.registrationForm.controls['videopath'].setValue('');
   }
 
   deleteVideo() {
-    this.videopath=''
+    this.videopath = ''
     this.fileInput1.nativeElement.value = '';
   }
 }
