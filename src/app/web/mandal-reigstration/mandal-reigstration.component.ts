@@ -357,7 +357,7 @@ export class MandalReigstrationComponent implements OnInit {
 
 
   videoPath(event: any) { //multiple Image Upload
-    let documentUrl: any = this.multipleFileUploadSe.uploadDocuments(event, "uploads", "mp4,FLV,F4V,AVI,MKV,m4v,mov");
+    let documentUrl: any = this.multipleFileUploadSe.uploadDocuments(event, "uploads", "mp4,FLV,F4V,AVI,MKV,m4v,mov,WAV");
     this.spinner.show();
     documentUrl.subscribe({
       next: (ele: any) => {
