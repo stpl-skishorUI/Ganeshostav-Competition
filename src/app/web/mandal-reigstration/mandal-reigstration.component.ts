@@ -35,7 +35,8 @@ export class MandalReigstrationComponent implements OnInit {
   hashObj: any;
   amount: string = '1';
   videopath: any;
-  hidevillage:any;
+  hidevillage: any;
+  @ViewChild('openSuccessModel') openSuccessModel: any;
 
   ngOnInit(): void {
     this.href = window.location.href;
@@ -88,7 +89,7 @@ export class MandalReigstrationComponent implements OnInit {
               this.zpNameArr.push(ele);
             }
           })
-          this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "isCity" : '',"clientId": 1 })
+          this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "isCity": '', "clientId": 1 })
           console.log(this.zpNameArr);
         } else {
           this.commonService.showError(res.statusMessage);
@@ -99,11 +100,11 @@ export class MandalReigstrationComponent implements OnInit {
       })
     })
   }
-  villageHide :any;
-  wdf(){
-    let ZpNameid= this.registrationForm.value.zpgatId;
-    this.zpNameArr.find((ele:any)=>{
-      (ZpNameid == ele.id ) ? this.villageHide = ele.isCity : ''
+  villageHide: any;
+  wdf() {
+    let ZpNameid = this.registrationForm.value.zpgatId;
+    this.zpNameArr.find((ele: any) => {
+      (ZpNameid == ele.id) ? this.villageHide = ele.isCity : ''
     })
 
     if (this.villageHide == 1) {
@@ -112,13 +113,10 @@ export class MandalReigstrationComponent implements OnInit {
       this.registrationForm.controls["villageName"].updateValueAndValidity();
     } else {
       this.registrationForm.get('villageName')?.setValidators([Validators.required]);
-    this.registrationForm.controls["villageName"].updateValueAndValidity();
+      this.registrationForm.controls["villageName"].updateValueAndValidity();
     }
 
   }
-
-
-
 
   addMember() {
     this.registrationForm.get('memberName')?.setValidators([Validators.required]);
@@ -209,31 +207,31 @@ export class MandalReigstrationComponent implements OnInit {
   }
 
   submitData() {
+    // this.openSuccessModel.nativeElement.click();
     this.isSubmmited = true;
     let formData = this.registrationForm.value;
-   
-    if (this.registrationForm.invalid || this.galleryImagArray?.length > 2 || this.commonService.checkDataType(this.videopath) == false) {
+    if (this.registrationForm.invalid || this.commonService.checkDataType(this.videopath) == false) {
       return
     }
 
-      if(this.memberArray?.length < 6 &&   this.competitionType == 1){
-        this.commonService.showError("Please Add Minimun 7 Member");
-        return;
-      }
-  
-   
+    if (this.memberArray?.length < 4 && this.competitionType == 1) {
+      this.commonService.showError("Please Add Minimun 5 Member");
+      return;
+    }
+
+
 
     this.spinner.show();
-    if (this.competitionType ==1){
+    if (this.competitionType == 1) {
       let temp = {
         "createdBy": 0,
         "modifiedBy": 0,
-        "createdDate":new Date(),
+        "createdDate": new Date(),
         "modifiedDate": new Date(),
         "isDeleted": false,
         "id": 0,
         "competitionId": 1,
-        "designationId":1,
+        "designationId": 1,
         "personName": formData.leadername,
         "mobileNo": formData.leaderMobileNo.toString()
       }
@@ -241,18 +239,18 @@ export class MandalReigstrationComponent implements OnInit {
       let temp1 = {
         "createdBy": 0,
         "modifiedBy": 0,
-        "createdDate":new Date(),
+        "createdDate": new Date(),
         "modifiedDate": new Date(),
         "isDeleted": false,
         "id": 0,
         "competitionId": 1,
-        "designationId":2,
+        "designationId": 2,
         "personName": formData.vicLeadername,
         "mobileNo": formData.vicleadermobileNo.toString()
       }
       this.memberArray.push(temp1);
     }
-    
+
     // if (this.competitionType == 2)  {
     //   temp['competitionId'] = 2;
     // }
@@ -286,7 +284,7 @@ export class MandalReigstrationComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
-        //  this.commonService.showError(res.showSuccess);
+          //  this.commonService.showError(res.showSuccess);
           this.spinner.hide();
           this.createHashPayment(res.responseData);
 
@@ -368,7 +366,7 @@ export class MandalReigstrationComponent implements OnInit {
       "amount": this.amount,
       "firstname": this.sendPayObj.personName,
       "email": 'somnathkhabale1999@gmail.com',
-      "phone":  this.sendPayObj.mobileNo,
+      "phone": this.sendPayObj.mobileNo,
       "productinfo": "vtsamc",
       "service_provider": "payu_paisa",
       "lastname": "",
@@ -428,14 +426,16 @@ export class MandalReigstrationComponent implements OnInit {
             let boltResponse = BOLT.response;
             if (boltResponse.status == "success" || boltResponse.status == "failure") {
               this.commonService.showSuccess("Payment Success.");
+              this.openSuccessModel.nativeElement.click();
+              this.resetForm();
               //API Calling
-              this.updatePaymentStatus(userId,boltResponse);    
-             }
+              this.updatePaymentStatus(userId, boltResponse);
+            }
           } else {
             let boltResponse = BOLT.response;
-             this.commonService.showError("Payment cancelled by user");
-             ////API Calling
-             BOLT.response.txnStatus != "CANCEL" ?this.updatePaymentStatus(userId,boltResponse):'';
+            this.commonService.showError("Payment cancelled by user");
+            ////API Calling
+            BOLT.response.txnStatus != "CANCEL" ? this.updatePaymentStatus(userId, boltResponse) : '';
           }
           return BOLT.response;
         },
@@ -447,20 +447,20 @@ export class MandalReigstrationComponent implements OnInit {
       // this.toastrService.error('Something went wrong please try again. Try again');
     }
   }
-  updatePaymentStatus(userId:any,boltResponse:any){
-    let obj ={
-        "competitionId": +userId,
-        "paymentId":userId.toString(),
-        "paymentStatus": boltResponse?.status,
-        "payuMoneyId": boltResponse?.txnid,
-        "amount": this.amount,
-        "responseStr":''//boltResponse  
+  updatePaymentStatus(userId: any, boltResponse: any) {
+    let obj = {
+      "competitionId": +userId,
+      "paymentId": userId.toString(),
+      "paymentStatus": boltResponse?.status,
+      "payuMoneyId": boltResponse?.txnid,
+      "amount": this.amount,
+      "responseStr": ''//boltResponse  
     }
     this.apiService.setHttp('put', "api/CompetitionPayment/UpdatePaymentStatus", false, obj, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
-        
+
         } else {
           this.commonService.showError(res.statusMessage);
         }
@@ -476,8 +476,10 @@ export class MandalReigstrationComponent implements OnInit {
     this.competitionType = 1;
     this.videopath = '';
     this.galleryImagArray = [];
+    this.isSubmmited = false;
+    this.memberArray = [];
     this.sendPayObj = '';
   }
 
-          
+
 }
