@@ -1,7 +1,7 @@
 <div class="row justify-content-center my-3 gx-2">
     <div class="col-sm-12 mb-3">
         <div class="card card-body bg-warning py-2 border-0">
-            <p class="mb-0 fw-bold">प्रवेश शुल्क : ५० /- रु. फक्त </p>
+            <p class="mb-0 fw-bold">प्रवेश शुल्क : १०० /- रु. फक्त </p>
         </div>
     </div>
 
@@ -246,29 +246,31 @@
                                             (click)="addMember()">Add</button>
                                         </div>
                                     </div>
-                                    <table class="table table-bordered" *ngIf="memberArray.length > 0">
-                                        <thead>
-                                            <tr>
-                                                <th>अनु. क्र.</th>
-                                                <th>सदस्याचे नाव</th>
-                                                <th>मोबाईल क्र.</th>
-                                                <th>काढून टाका </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let item of memberArray let i=index">
-                                                <td>{{i+1}}</td>
-                                                <td>{{item.personName}}</td>
-                                                <td>{{item.mobileNo}}</td>
-                                                <td>
-                                                    <button class="btn btn-sm bg-danger bg-opacity-10 text-danger"
-                                                        (click)="deleteMember(i,item)">
-                                                        <i class="fa-regular fa-trash-can"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" *ngIf="memberArray.length > 0">
+                                            <thead>
+                                                <tr>
+                                                    <th>अनु. क्र.</th>
+                                                    <th>सदस्याचे नाव</th>
+                                                    <th>मोबाईल क्र.</th>
+                                                    <th>काढून टाका </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of memberArray let i=index">
+                                                    <td>{{i+1}}</td>
+                                                    <td>{{item.personName}}</td>
+                                                    <td>{{item.mobileNo}}</td>
+                                                    <td>
+                                                        <button class="btn btn-sm bg-danger bg-opacity-10 text-danger"
+                                                            (click)="deleteMember(i,item)">
+                                                            <i class="fa-regular fa-trash-can"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -336,7 +338,7 @@
                             <div class="col-sm-10">
                                 <input type="file" multiple formControlName="videopath" placeholder="सजावटीचे फोटो"
                                     (change)="videoPath($event)" class="form-control" #fileInput1>
-                                    <div class="form-text text-main">नोंद : व्हिडिओचा कालावधी ३० सेकंदापेक्षा अधिक नसावा </div>
+                                    <div class="form-text text-main">नोंद : व्हिडिओचा कालावधी ३० सेकंदापेक्षा अधिक नसावा. व्हिडीओ अपलोड होत नसेल तर त्याची साईझ कमी करून अपलोड करण्याचा प्रयत्न करावा </div>
                                 <div class="d-flex flex-wrap" *ngIf="videopath">
                                     <div class="upload-photo">
                                         <video width="220" height="140" controls>
@@ -438,16 +440,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <!-- <div class="success-checkmark mb-3">
-                    <div class="check-icon">
-                        <span class="icon-line line-tip"></span>
-                        <span class="icon-line line-long"></span>
-                        <div class="icon-circle"></div>
-                        <div class="icon-fix"></div>
-                    </div>
-                </div> -->
-                <img src="assets/images/Success.jpg" class="img-fluid mb-3">
-                <h3 class="text-success mb-0">आपण या स्पर्धेमध्ये सहभागी झाल्याबद्दल आपले मन:पुर्वक आभार.</h3>
+                <!-- <img src="assets/images/purandar-thanku.jpg" class="img-fluid mb-3"> -->
+                <img src="assets/images/Success.jpg" class="img-fluid mb-3 w-100">
+                <!-- <h3 class="text-success mb-0">आपण या स्पर्धेमध्ये सहभागी झाल्याबद्दल आपले मन:पुर्वक आभार.</h3> -->
             </div>
         </div>
     </div>

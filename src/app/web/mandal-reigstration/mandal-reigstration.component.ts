@@ -33,7 +33,7 @@ export class MandalReigstrationComponent implements OnInit {
   competitionTypeArray = [{ "id": 1, "competitionName": "सार्वजनिक गणेशोत्सव स्पर्धा " }, { "id": 2, "competitionName": "घरगुती गौरी सजावट स्पर्धा " }]
   sendPayObj: any;
   hashObj: any;
-  amount: string = '1';
+  amount: string = '100';
   videopath: any;
   hidevillage: any;
   @ViewChild('openSuccessModel') openSuccessModel: any;
