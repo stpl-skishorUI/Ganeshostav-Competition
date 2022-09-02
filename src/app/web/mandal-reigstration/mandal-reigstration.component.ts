@@ -207,20 +207,33 @@ export class MandalReigstrationComponent implements OnInit {
   }
 
   submitData() {
-    // this.openSuccessModel.nativeElement.click();
+
     this.isSubmmited = true;
     let formData = this.registrationForm.value;
-    if (this.registrationForm.invalid || this.commonService.checkDataType(this.videopath) == false) {
+    if (this.registrationForm.invalid) {
       return
     }
 
-    if (this.memberArray?.length < 4 && this.competitionType == 1) {
+    if (this.memberArray?.length < 5 && this.competitionType == 1) {
       this.commonService.showError("Please Add Minimun 5 Member");
       return;
     }
+    
+    if(this.galleryImagArray?.length == 0){
+      this.commonService.showError("Please Add Images");
+      return;
+    }
 
+    if(this.galleryImagArray?.length > 3){
+      this.commonService.showError("Please Add Minimun 3 Images");
+      return;
+    }
 
-
+    if(this.commonService.checkDataType(this.videopath) == false){
+      this.commonService.showError("Please Upload Video");
+      return;
+    }
+    
     this.spinner.show();
     if (this.competitionType == 1) {
       let temp = {
@@ -456,7 +469,7 @@ export class MandalReigstrationComponent implements OnInit {
       "amount": this.amount,
       "responseStr": ''//boltResponse  
     }
-    this.apiService.setHttp('put', "api/CompetitionPayment/UpdatePaymentStatus", false, obj, false, 'masterUrl');
+    this.apiService.setHttp('post', "api/CompetitionPayment/UpdatePaymentStatus", false, obj, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {

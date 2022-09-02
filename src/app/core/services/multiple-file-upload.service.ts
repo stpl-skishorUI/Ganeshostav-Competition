@@ -56,7 +56,7 @@ export class MultipleFileUploadService {
       }
       else {
         obj.error("Only " + allowedDocTypes + " file format allowed.");
-        // this.toastrService.error('Only jpg or png & jpeg file format allowed.');
+        this.commonService.showError("Only " + allowedDocTypes + " file format allowed.");
       }
     })
   }
