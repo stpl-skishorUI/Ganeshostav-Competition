@@ -53,9 +53,9 @@ export class MandalReigstrationComponent implements OnInit {
       "villageName": [''],
       "personName": ['', [Validators.required]],
       "leadername": ['', [Validators.required]],
-      "leaderMobileNo": ['', [Validators.required]],
+      "leaderMobileNo": ['', [Validators.required,Validators.pattern('[6-9]\\d{9}')]],
       "vicLeadername": ['', [Validators.required]],
-      "vicleadermobileNo": ['', [Validators.required]],
+      "vicleadermobileNo": ['', [Validators.required,Validators.pattern('[6-9]\\d{9}')]],
       "memberName": [''],
       "memberMobileNo": [''],
       "amount": 0,
@@ -121,7 +121,7 @@ export class MandalReigstrationComponent implements OnInit {
   addMember() {
     this.registrationForm.get('memberName')?.setValidators([Validators.required]);
     this.registrationForm.controls["memberName"].updateValueAndValidity();
-    this.registrationForm.get('memberMobileNo')?.setValidators([Validators.required]);
+    this.registrationForm.get('memberMobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
     this.registrationForm.controls["memberMobileNo"].updateValueAndValidity();
     if (this.f.memberName.status == 'VALID' && this.f.memberMobileNo.status == 'VALID') {
       let obj = {
@@ -171,11 +171,11 @@ export class MandalReigstrationComponent implements OnInit {
       this.registrationForm.controls["personName"].updateValueAndValidity();
       this.registrationForm.get('leadername')?.setValidators([Validators.required]);
       this.registrationForm.controls["leadername"].updateValueAndValidity();
-      this.registrationForm.get('leaderMobileNo')?.setValidators([Validators.required]);
+      this.registrationForm.get('leaderMobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
       this.registrationForm.controls["leaderMobileNo"].updateValueAndValidity();
       this.registrationForm.get('vicLeadername')?.setValidators([Validators.required]);
       this.registrationForm.controls["vicLeadername"].updateValueAndValidity();
-      this.registrationForm.get('vicleadermobileNo')?.setValidators([Validators.required]);
+      this.registrationForm.get('vicleadermobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
       this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
 
     } else if (this.competitionType == 2) {
@@ -198,12 +198,9 @@ export class MandalReigstrationComponent implements OnInit {
 
       this.registrationForm.get('selfPersonName')?.setValidators([Validators.required]);
       this.registrationForm.controls["selfPersonName"].updateValueAndValidity();
-      this.registrationForm.get('selfPersonMobile')?.setValidators([Validators.required]);
+      this.registrationForm.get('selfPersonMobile')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
       this.registrationForm.controls["selfPersonMobile"].updateValueAndValidity();
-
-
     }
-
   }
 
   submitData() {

@@ -148,8 +148,9 @@
                                             </span>
                                         </div>
                                         <div class="col-sm-5">
-                                            <input type="number" class="form-control" placeholder="मोबाईल क्र.  "
-                                                formControlName="leaderMobileNo">
+                                            <input type="text" class="form-control" placeholder="मोबाईल क्र.  " 
+                                                formControlName="leaderMobileNo" maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)">
+
                                             <span *ngIf="f['leaderMobileNo'].errors && isSubmmited"
                                                 class="invalid-error">
                                                 <span
@@ -178,7 +179,8 @@
                                             </span>
                                         </div>
                                         <div class="col-sm-5">
-                                            <input type="number" class="form-control" placeholder="मोबाईल क्र."
+                                            <input type="text" class="form-control" placeholder="मोबाईल क्र."
+                                            maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)"
                                                 formControlName="vicleadermobileNo">
                                             <span *ngIf="f['vicleadermobileNo'].errors && isSubmmited"
                                                 class="invalid-error">
@@ -207,7 +209,8 @@
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="input-group">
-                                                <input type="number" class="form-control rounded me-1"
+                                                <input type="text" class="form-control rounded me-1"
+                                                maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)"
                                                     formControlName="memberMobileNo" placeholder="मोबाईल क्र.">
                                                 <span *ngIf="f['memberMobileNo'].errors " class="invalid-error">
                                                     <span *ngIf="f['memberMobileNo'].hasError('required') ">कृपया
@@ -259,7 +262,8 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control" placeholder="मोबाईल क्र."
+                                    <input type="text" class="form-control" placeholder="मोबाईल क्र."
+                                    maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)"
                                         formControlName="selfPersonMobile">
                                     <span *ngIf="f['selfPersonMobile'].errors && isSubmmited" class="invalid-error">
                                         <span *ngIf="f['selfPersonMobile'].hasError('required') && isSubmmited">कृपया
