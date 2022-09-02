@@ -8,8 +8,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
-import { PartialLayoutRoutes } from './partial-layout.routing';
 import { MaterialModule } from 'src/app/shared/angularMaterialModule/material.module';
+import { PartialLayoutRoutingModule } from './partial-layout-routing.module';
 
 
 
@@ -20,7 +20,7 @@ import { MaterialModule } from 'src/app/shared/angularMaterialModule/material.mo
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(PartialLayoutRoutes),
+    PartialLayoutRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
     MatButtonModule,

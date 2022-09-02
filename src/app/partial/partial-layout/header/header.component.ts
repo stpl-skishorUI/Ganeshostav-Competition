@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LocalstorageService } from 'src/app/core/services/localstorage.service';
 import { SidebarService } from '../sidebar/sidebar.service';
 
 @Component({
@@ -8,7 +10,13 @@ import { SidebarService } from '../sidebar/sidebar.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public sidebarservice: SidebarService) { }
+  constructor(
+    public sidebarservice: SidebarService,
+    private route: ActivatedRoute,
+    private router: Router, 
+     private activatedRoute: ActivatedRoute,
+    public localstorageService: LocalstorageService,
+    ) { }
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
   }
@@ -24,6 +32,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+  
+  logOut() {
+    localStorage.clear();
+    this.router.navigate(['../home'], { relativeTo: this.route });
   }
 
 }

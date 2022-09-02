@@ -27,7 +27,6 @@ export class MandalReigstrationComponent implements OnInit {
     this.getZPName();
   }
 
-
   defulatForm() {
     this.registrationForm = this.fb.group({
       "competitionTypeId": ['', Validators.required],
