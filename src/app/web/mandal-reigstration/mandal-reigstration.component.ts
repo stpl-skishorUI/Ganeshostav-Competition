@@ -375,7 +375,7 @@ export class MandalReigstrationComponent implements OnInit {
     let obj = {
       "amount": this.amount,
       "firstname": this.sendPayObj.personName,
-      "email": 'somnathkhabale1999@gmail.com',
+      "email": 'stplact@gmail.com',
       "phone": this.sendPayObj.mobileNo,
       "productinfo": "vtsamc",
       "service_provider": "payu_paisa",
