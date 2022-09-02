@@ -87,11 +87,11 @@
                         </div>
                         <div class="row mb-3 align-content-center">
                             <div class="col-sm-2">
-                                <label class="form-label py-lg-2 p-0">जिल्हा परिषद गट :</label>
+                                <label class="form-label py-lg-2 p-0">जिल्हा परिषद गट / शहर :</label>
                             </div>
                             <div class="col-sm-10">
                                 <select class="form-select" formControlName="zpgatId">
-                                    <option *ngFor="let name of zpNameArr" [value]="name.id">{{name.zpgatName}}
+                                    <option *ngFor="let name of zpNameArr" [value]="name?.id" (change)="hidevillage = name?.isCity">{{name?.zpgatName}}
                                     </option>
                                 </select>
                                 <span *ngIf="f['zpgatId'].errors && isSubmmited" class="invalid-error">
@@ -102,8 +102,8 @@
                             </div>
                         </div>
                         <div class="row mb-3 align-content-center">
-                            <div class="col-sm-2">
-                                <label class="form-label py-lg-2 p-0">गावाचे नाव :</label>
+                            <div class="col-sm-2" *ngIf="hidevillage != 1">
+                                <label class="form-label py-lg-2 p-0">गावाचे नाव : {{hidevillage}}</label>
                             </div>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" placeholder="गावाचे नाव "
@@ -112,6 +112,10 @@
                                     <span *ngIf="f['villageName'].hasError('required') && isSubmmited"> कृपया गावाचे नाव
                                         टाका </span>
                                 </span>
+                                <!-- <div *ngIf="isSubmmited && f.villageName.errors" class="invalid-error">
+                                    <div class="text-danger" *ngIf="f.villageName.errors?.required">कृपया गावाचे नाव
+                                        टाका</div>
+                                </div> -->
                             </div>
                         </div>
                         <div *ngIf="this.competitionType == 1">
@@ -174,7 +178,7 @@
                                             </span>
                                         </div>
                                         <div class="col-sm-5">
-                                            <input type="number" class="form-control" placeholder="मोबाईल क्र.  "
+                                            <input type="number" class="form-control" placeholder="मोबाईल क्र."
                                                 formControlName="vicleadermobileNo">
                                             <span *ngIf="f['vicleadermobileNo'].errors && isSubmmited"
                                                 class="invalid-error">

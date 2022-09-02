@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/core/services/api.service';
 import { CommonService } from 'src/app/core/services/common.service';
 import { ErrorsService } from 'src/app/core/services/errors.service';
@@ -21,7 +21,8 @@ export class MandalReigstrationComponent implements OnInit {
     public commonService: CommonService,
     public error: ErrorsService, private router: Router,
     public spinner: NgxSpinnerService) { }
-  registrationForm: any;
+
+  registrationForm!: FormGroup | any;
   zpNameArr: any[] = [];
   memberArray: any[] = [];
   competitionType: any;
@@ -33,6 +34,8 @@ export class MandalReigstrationComponent implements OnInit {
   sendPayObj: any;
   hashObj: any;
   amount: string = '1';
+  videopath: any;
+  hidevillage:any;
 
   ngOnInit(): void {
     this.href = window.location.href;
@@ -85,7 +88,7 @@ export class MandalReigstrationComponent implements OnInit {
               this.zpNameArr.push(ele);
             }
           })
-          this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "clientId": 1 })
+          this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "isCity" : '',"clientId": 1 })
           console.log(this.zpNameArr);
         } else {
           this.commonService.showError(res.statusMessage);
@@ -187,34 +190,43 @@ export class MandalReigstrationComponent implements OnInit {
 
   submitData() {
     this.isSubmmited = true;
-    if (this.registrationForm.invalid) {
+    let formData = this.registrationForm.value;
+    if (this.registrationForm.invalid || this.galleryImagArray?.length > 2 || this.commonService.checkDataType(this.videopath) == false) {
       return
     }
     this.spinner.show();
-    let formData = this.registrationForm.value;
-    let temp = {
-      "createdBy": 0,
-      "modifiedBy": 0,
-      "createdDate": "2022-09-01T12:46:21.663Z",
-      "modifiedDate": "2022-09-01T12:46:21.663Z",
-      "isDeleted": false,
-      "id": 0,
-      "competitionId": 0,
-      "designationId": 0,
-      "personName": "",
-      "mobileNo": ""
-    }
-    if (this.competitionType == 1) {
-      for (let i = 0; i <= 1; i++) {
-        temp['competitionId'] = 1;
-        temp['designationId'] = i == 0 ? 1 : 2;
-        temp['personName'] = i == 0 ? formData.leadername : formData.vicLeadername;
-        temp['mobileNo'] = i == 0 ? formData.leaderMobileNo.toString() : formData.vicleadermobileNo.toString();
-        this.memberArray.push(temp)
+    if (this.competitionType ==1){
+      let temp = {
+        "createdBy": 0,
+        "modifiedBy": 0,
+        "createdDate":new Date(),
+        "modifiedDate": new Date(),
+        "isDeleted": false,
+        "id": 0,
+        "competitionId": 1,
+        "designationId":1,
+        "personName": formData.leadername,
+        "mobileNo": formData.leaderMobileNo.toString()
       }
-    } else {
-      temp['competitionId'] = 2;
+      this.memberArray.push(temp);
+      let temp1 = {
+        "createdBy": 0,
+        "modifiedBy": 0,
+        "createdDate":new Date(),
+        "modifiedDate": new Date(),
+        "isDeleted": false,
+        "id": 0,
+        "competitionId": 1,
+        "designationId":2,
+        "personName": formData.vicLeadername,
+        "mobileNo": formData.vicleadermobileNo.toString()
+      }
+      this.memberArray.push(temp1);
     }
+    
+    // if (this.competitionType == 2)  {
+    //   temp['competitionId'] = 2;
+    // }
     let clientId = this.href.includes('maan.erpguru.in') ? 1 : 2;
     let obj = {
       "createdBy": 0,
@@ -295,10 +307,10 @@ export class MandalReigstrationComponent implements OnInit {
     this.fileInput.nativeElement.value = '';
   }
 
-  videopath: any;
+
   videoPath(event: any) { //multiple Image Upload
-    this.spinner.show();
     let documentUrl: any = this.multipleFileUploadSe.uploadDocuments(event, "uploads", "mp4,FLV,F4V,AVI,MKV");
+    this.spinner.show();
     documentUrl.subscribe({
       next: (ele: any) => {
         if (ele.responseData != null) {
@@ -313,6 +325,7 @@ export class MandalReigstrationComponent implements OnInit {
 
       },
     })
+    this.spinner.hide();
     this.registrationForm.controls['videopath'].setValue('');
   }
 
