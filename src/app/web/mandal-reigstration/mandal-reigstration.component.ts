@@ -52,9 +52,9 @@ export class MandalReigstrationComponent implements OnInit {
       "clientId": [''],
       "villageName": [''],
       "personName": ['', [Validators.required]],
-      "leadername": ['', [Validators.required]],
+      "leadername": ['', [Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]],
       "leaderMobileNo": ['', [Validators.required,Validators.pattern('[6-9]\\d{9}')]],
-      "vicLeadername": ['', [Validators.required]],
+      "vicLeadername": ['', [Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]],
       "vicleadermobileNo": ['', [Validators.required,Validators.pattern('[6-9]\\d{9}')]],
       "memberName": [''],
       "memberMobileNo": [''],
@@ -65,7 +65,7 @@ export class MandalReigstrationComponent implements OnInit {
       "paymentStatus": [''],
       "remark": [''],
       "marks": [''],
-      "moreInfo": ['', Validators.required],
+      "moreInfo": ['', Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)],
       "selfPersonName": [''],
       'selfPersonMobile': [''],
       "imagePath": [''],
@@ -119,10 +119,9 @@ export class MandalReigstrationComponent implements OnInit {
   }
 
   addMember() {
-    this.registrationForm.get('memberName')?.setValidators([Validators.required]);
-    this.registrationForm.controls["memberName"].updateValueAndValidity();
-    this.registrationForm.get('memberMobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
-    this.registrationForm.controls["memberMobileNo"].updateValueAndValidity();
+   
+  this.addMemberValidation();
+
     if (this.f.memberName.status == 'VALID' && this.f.memberMobileNo.status == 'VALID') {
       let obj = {
         "createdBy": 0,
@@ -137,7 +136,19 @@ export class MandalReigstrationComponent implements OnInit {
         "mobileNo": this.registrationForm.value.memberMobileNo.toString()
       }
       this.memberArray.push(obj);
+      this.removeMemberValidation();
     }
+ 
+  }
+
+  addMemberValidation(){
+    this.registrationForm.get('memberName')?.setValidators([Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
+    this.registrationForm.controls["memberName"].updateValueAndValidity();
+    this.registrationForm.get('memberMobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
+    this.registrationForm.controls["memberMobileNo"].updateValueAndValidity();
+  }
+
+  removeMemberValidation(){
     this.registrationForm.controls["memberName"].clearValidators();
     this.registrationForm.controls["memberName"].updateValueAndValidity();
     this.registrationForm.controls["memberMobileNo"].clearValidators();
@@ -145,7 +156,6 @@ export class MandalReigstrationComponent implements OnInit {
     this.registrationForm.controls['memberName'].setValue('');
     this.registrationForm.controls['memberMobileNo'].setValue('');
   }
-
 
   deleteMember(ind: number, obj: any) {
     if (confirm("Do you want Delete") == true) {
@@ -169,11 +179,11 @@ export class MandalReigstrationComponent implements OnInit {
 
       this.registrationForm.get('personName')?.setValidators([Validators.required]);
       this.registrationForm.controls["personName"].updateValueAndValidity();
-      this.registrationForm.get('leadername')?.setValidators([Validators.required]);
+      this.registrationForm.get('leadername')?.setValidators([Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
       this.registrationForm.controls["leadername"].updateValueAndValidity();
       this.registrationForm.get('leaderMobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
       this.registrationForm.controls["leaderMobileNo"].updateValueAndValidity();
-      this.registrationForm.get('vicLeadername')?.setValidators([Validators.required]);
+      this.registrationForm.get('vicLeadername')?.setValidators([Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
       this.registrationForm.controls["vicLeadername"].updateValueAndValidity();
       this.registrationForm.get('vicleadermobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
       this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
@@ -207,6 +217,7 @@ export class MandalReigstrationComponent implements OnInit {
 
     this.isSubmmited = true;
     let formData = this.registrationForm.value;
+    this.removeMemberValidation();
     if (this.registrationForm.invalid) {
       return
     }
@@ -231,7 +242,6 @@ export class MandalReigstrationComponent implements OnInit {
       return;
     }
     
-    this.spinner.show();
     if (this.competitionType == 1) {
       let temp = {
         "createdBy": 0,
@@ -289,6 +299,7 @@ export class MandalReigstrationComponent implements OnInit {
       "mobileNo": this.competitionType == 1 ? formData.leaderMobileNo.toString() : formData.selfPersonMobile.toString(),
       "compettionImage": this.galleryImagArray
     }
+    this.spinner.show();
     this.sendPayObj = obj;
     this.apiService.setHttp('post', "api/Competition", false, obj, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
@@ -457,6 +468,7 @@ export class MandalReigstrationComponent implements OnInit {
       // this.toastrService.error('Something went wrong please try again. Try again');
     }
   }
+  
   updatePaymentStatus(userId: any, boltResponse: any) {
     let obj = {
       "competitionId": +userId,

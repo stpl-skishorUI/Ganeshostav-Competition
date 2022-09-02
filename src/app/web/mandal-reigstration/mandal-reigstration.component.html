@@ -145,6 +145,8 @@
                                             <span *ngIf="f['leadername'].errors && isSubmmited" class="invalid-error">
                                                 <span *ngIf="f['leadername'].hasError('required') && isSubmmited">कृपया
                                                     अध्यक्षाचे नाव टाका </span>
+                                                    <span *ngIf="f['leadername'].hasError('pattern') && isSubmmited">कृपया
+                                                        अध्यक्षाचे नाव बरोबर टाका </span>
                                             </span>
                                         </div>
                                         <div class="col-sm-5">
@@ -179,6 +181,9 @@
                                                 <span
                                                     *ngIf="f['vicLeadername'].hasError('required') && isSubmmited">कृपया
                                                     उपाध्यक्षाचे नाव टाका </span>
+                                                    <span
+                                                    *ngIf="f['vicLeadername'].hasError('pattern') && isSubmmited">कृपया
+                                                    उपाध्यक्षाचे नाव बरोबर टाका </span>
                                             </span>
                                         </div>
                                         <div class="col-sm-5">
@@ -212,10 +217,12 @@
                                             <span *ngIf="f['memberName'].errors " class="invalid-error">
                                                 <span *ngIf="f['memberName'].hasError('required') ">कृपया सदस्याचे नाव
                                                     टाका </span>
+                                                    <span *ngIf="f['memberName'].hasError('pattern') ">कृपया सदस्याचे नाव
+                                                        बरोबर टाका </span>
                                             </span>
                                         </div>
-                                        <div class="col-sm-5">
-                                            <div class="input-group">
+                                        <div class="col-sm">
+                                            <!-- <div class="input-group"> -->
                                                 <input type="text" class="form-control rounded me-1"
                                                 maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)"
                                                     formControlName="memberMobileNo" placeholder="मोबाईल नंबर">
@@ -223,18 +230,20 @@
                                                     <span *ngIf="f['memberMobileNo'].hasError('required') ">कृपया
                                                         सदस्याचे मोबाईल क्र. टाका </span>
                                                 </span> -->
-                                                <span *ngIf="f['memberMobileNo'].errors && isSubmmited"
-                                                class="invalid-error">
+                                                <span *ngIf="f['memberMobileNo'].errors " class="invalid-error">
                                                 <span
-                                                    *ngIf="f['memberMobileNo'].hasError('required') && isSubmmited">कृपया
+                                                    *ngIf="f['memberMobileNo'].hasError('required')">कृपया
                                                     सदस्याचे मोबाईल नंबर टाका </span>
                                                     <span
-                                                    *ngIf="f['memberMobileNo'].hasError('pattern') && isSubmmited">कृपया
+                                                    *ngIf="f['memberMobileNo'].hasError('pattern')">कृपया
                                                     सदस्याचे मोबाईल नंबर बरोबर टाका </span>
                                             </span>
-                                                <button type="button" class="btn bg-light-main text-main rounded"
-                                                    (click)="addMember()">Add</button>
-                                            </div>
+                                            <!-- </div> -->
+                                            
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <button type="button" class="btn bg-light-main text-main rounded"
+                                            (click)="addMember()">Add</button>
                                         </div>
                                     </div>
                                     <table class="table table-bordered" *ngIf="memberArray.length > 0">
@@ -352,8 +361,8 @@
                                 <textarea rows="4" class="form-control" placeholder="अधिक माहिती "
                                     formControlName="moreInfo"></textarea>
                                 <span *ngIf="f['moreInfo'].errors && isSubmmited" class="invalid-error">
-                                    <span *ngIf="f['moreInfo'].hasError('required') && isSubmmited">कृपया सजावटी
-                                        संदर्भात टाका </span>
+                                    <span *ngIf="f['moreInfo'].hasError('pattern') && isSubmmited">कृपया सजावटी
+                                        संदर्भात बरोबर माहिती टाका </span>
                                 </span>
                             </div>
                         </div>
