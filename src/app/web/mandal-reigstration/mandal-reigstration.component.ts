@@ -6,6 +6,9 @@ import { ErrorsService } from 'src/app/core/services/errors.service';
 import { MultipleFileUploadService } from 'src/app/core/services/multiple-file-upload.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+declare var bolt: any;
+declare var $: any;
+
 @Component({
   selector: 'app-mandal-reigstration',
   templateUrl: './mandal-reigstration.component.html',
@@ -19,7 +22,7 @@ export class MandalReigstrationComponent implements OnInit {
     public error: ErrorsService, private router: Router,
     public spinner: NgxSpinnerService) { }
   registrationForm: any;
-  zpNameArr: any[]=[];
+  zpNameArr: any[] = [];
   memberArray: any[] = [];
   competitionType: any;
   isSubmmited: boolean = false
@@ -27,11 +30,16 @@ export class MandalReigstrationComponent implements OnInit {
   @ViewChild('fileInput1') fileInput1!: ElementRef;
   public href: string = "";
   competitionTypeArray = [{ "id": 1, "competitionName": "सार्वजनिक गणेशोत्सव स्पर्धा " }, { "id": 2, "competitionName": "घरगुती गौरी सजावट स्पर्धा " }]
+  sendPayObj: any;
+  hashObj: any;
+  amount: string = '1';
+
   ngOnInit(): void {
     this.href = window.location.href;
     this.defulatForm();
     this.getZPName();
   }
+
 
   defulatForm() {
     this.registrationForm = this.fb.group({
@@ -217,10 +225,10 @@ export class MandalReigstrationComponent implements OnInit {
       "id": 0,
       "competitionTypeId": this.competitionType,
       "zpgatId": formData.zpgatId,
-      "clientId":clientId,
+      "clientId": clientId,
       "villageName": formData.villageName,
       "personName": this.competitionType == 1 ? formData.personName : formData.selfPersonName,
-      "amount": 0,
+      "amount": +this.amount,
       "paymentScreenPath": "string",
       "videoPath": this.videopath,
       "paymentId": "string",
@@ -229,20 +237,18 @@ export class MandalReigstrationComponent implements OnInit {
       "marks": 0,
       "moreInfo": formData.moreInfo,
       "competitionMembers": this.memberArray,
-      "mobileNo": "",
+      "mobileNo": this.competitionType == 1 ? formData.leaderMobileNo.toString() : formData.selfPersonMobile.toString(),
       "compettionImage": this.galleryImagArray
     }
+    this.sendPayObj = obj;
     this.apiService.setHttp('post', "api/Competition", false, obj, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
-          this.commonService.showError(res.showSuccess);
+        //  this.commonService.showError(res.showSuccess);
           this.spinner.hide();
-          this.registrationForm.reset();
-          this.registrationForm.controls["zpgatId"].setValue('');
-          this.competitionType = 1;
-          this.videopath = '';
-          this.galleryImagArray = [];
+          this.createHashPayment(res.responseData);
+
         } else {
           this.spinner.hide()
           this.commonService.showError(res.statusMessage);
@@ -313,5 +319,97 @@ export class MandalReigstrationComponent implements OnInit {
   deleteVideo() {
     this.videopath = ''
     this.fileInput1.nativeElement.value = '';
+  }
+
+  createHashPayment(userId: any) {
+    let obj = {
+      "amount": this.amount,
+      "firstname": this.sendPayObj.personName,
+      "email": 'somnathkhabale1999@gmail.com',
+      "phone":  this.sendPayObj.mobileNo,
+      "productinfo": "vtsamc",
+      "service_provider": "payu_paisa",
+      "lastname": "",
+      "address1": "",
+      "address2": "",
+      "city": "",
+      "state": "",
+      "country": "",
+      "zipcode": "",
+      "udf1": "2", // for web
+      "udf2": userId.toString(), // login Userid
+      "udf3": '',
+      "udf4": '',
+      "udf5": '',
+      "udf6": "",
+      "udf7": "",
+      "pg": "1"
+    }
+    this.apiService.setHttp('post', 'api/CompetitionPayment/generate-hash-sequence', false, obj, false, 'masterUrl');
+    this.apiService.getHttp().subscribe((res: any) => {
+      if (res.statusCode === "200") {
+        let result = res.responseData;
+        this.hashObj = {
+          'hash': result.hash,
+          'tranId': result.transactionId,
+        }
+        if (this.hashObj.hash != null && this.hashObj.tranId != null) {
+          this.launchBoltPayment(userId);
+        }
+      }
+    },
+    );
+  }
+
+  launchBoltPayment(userId: any) {
+    let obj = {
+      "key": 'WEaXaZfK',
+      "txnid": this.hashObj.tranId,
+      "amount": this.amount,
+      "firstname": this.sendPayObj.personName,
+      "email": 'somnathkhabale1999@gmail.com',
+      "phone": this.sendPayObj.mobileNo,
+      "productinfo": "vtsamc",
+      "hash": this.hashObj.hash,
+      "udf1": "2",
+      "udf2": userId.toString(), // login Userid
+      "udf3": '',
+      "udf4": '',
+      "udf5": '',
+      "surl": 'https://mahakhanij.maharashtra.gov.in/ResponseHandlingVTS.aspx',
+      "furl": 'https://mahakhanij.maharashtra.gov.in/ResponseHandlingVTS.aspx',
+    }
+    if (Object.keys(obj).length !== 0) {
+      bolt.launch(obj, {
+        responseHandler: (BOLT: any) => {
+          if (BOLT.response.txnStatus != "CANCEL") {
+            let boltResponse = BOLT.response;
+            if (boltResponse.status == "success" || boltResponse.status == "failure") {
+              this.commonService.showSuccess("Payment Success.");
+              //API Calling
+             }
+          } else {
+            let boltResponse = BOLT.response;
+             this.commonService.showError("Payment cancelled by user");
+             ////API Calling
+          }
+          return BOLT.response;
+        },
+        catchException: (BOLT: any) => {
+          // this.toastrService.error(BOLT.message);
+        }
+      });
+    } else {
+      // this.toastrService.error('Something went wrong please try again. Try again');
+    }
+  }
+
+  resetForm() {
+    this.registrationForm.reset();
+    this.registrationForm.controls["zpgatId"].setValue('');
+    this.competitionType = 1;
+    this.videopath = '';
+    this.galleryImagArray = [];
+    this.sendPayObj = '';
   }
 }
