@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/core/services/common.service';
 import { ErrorsService } from 'src/app/core/services/errors.service';
 import { MultipleFileUploadService } from 'src/app/core/services/multiple-file-upload.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-mandal-reigstration',
   templateUrl: './mandal-reigstration.component.html',
@@ -14,9 +15,9 @@ export class MandalReigstrationComponent implements OnInit {
 
   constructor(
     private apiService: ApiService, public fb: FormBuilder, public multipleFileUploadSe: MultipleFileUploadService,
-    public commonService:CommonService,
-    public error: ErrorsService,
-    public spinner:NgxSpinnerService) { }
+    public commonService: CommonService,
+    public error: ErrorsService, private router: Router,
+    public spinner: NgxSpinnerService) { }
   registrationForm: any;
   zpNameArr: any;
   memberArray: any[] = [];
@@ -24,9 +25,10 @@ export class MandalReigstrationComponent implements OnInit {
   isSubmmited: boolean = false
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild('fileInput1') fileInput1!: ElementRef;
+  public href: string = "";
   competitionTypeArray = [{ "id": 1, "competitionName": "सार्वजनिक गणेशोत्सव स्पर्धा " }, { "id": 2, "competitionName": "घरगुती गौरी सजावट स्पर्धा " }]
   ngOnInit(): void {
-   
+    this.href = window.location.href;
     this.defulatForm();
     this.getZPName();
   }
@@ -65,18 +67,24 @@ export class MandalReigstrationComponent implements OnInit {
   }
 
   getZPName() {
+    let id = this.href.includes('maan.erpguru.in') ? 1 : 2;
     this.apiService.setHttp('get', "api/Competition/GetZPGATName", false, false, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
-          this.zpNameArr = res.responseData;
+          let dataArray = res.responseData;
+          dataArray.map((ele: any, ind: any) => {
+            if (id == ele.clientId) {
+              this.zpNameArr.push(ele);
+            }
+          })
           this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "clientId": 1 })
         } else {
-
+          this.commonService.showError(res.statusMessage);
         }
       },
       error: ((error: any) => {
-        //  this.error.handelError(error.status) 
+        this.error.handelError(error.status)
       })
     })
   }
@@ -142,6 +150,7 @@ export class MandalReigstrationComponent implements OnInit {
       this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
 
     } else if (this.competitionType == 2) {
+      this.memberArray = [];
       this.registrationForm.controls["personName"].setValue('');
       this.registrationForm.controls["personName"].clearValidators();
       this.registrationForm.controls["personName"].updateValueAndValidity();
@@ -281,7 +290,7 @@ export class MandalReigstrationComponent implements OnInit {
 
   videopath: any;
   videoPath(event: any) { //multiple Image Upload
-  this.spinner.show();
+    this.spinner.show();
     let documentUrl: any = this.multipleFileUploadSe.uploadDocuments(event, "uploads", "mp4,FLV,F4V,AVI,MKV");
     documentUrl.subscribe({
       next: (ele: any) => {
@@ -291,7 +300,7 @@ export class MandalReigstrationComponent implements OnInit {
             this.spinner.hide();
             this.commonService.showSuccess('Video uploaded successfully');
           });
-        }else{
+        } else {
           // this.commonService.showSuccess('image uploaded successfully');
         }
 
