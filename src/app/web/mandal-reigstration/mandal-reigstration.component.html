@@ -148,14 +148,17 @@
                                             </span>
                                         </div>
                                         <div class="col-sm-5">
-                                            <input type="text" class="form-control" placeholder="मोबाईल क्र.  " 
+                                            <input type="text" class="form-control" placeholder="मोबाईल नंबर" 
                                                 formControlName="leaderMobileNo" maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)">
 
                                             <span *ngIf="f['leaderMobileNo'].errors && isSubmmited"
                                                 class="invalid-error">
                                                 <span
                                                     *ngIf="f['leaderMobileNo'].hasError('required') && isSubmmited">कृपया
-                                                    अध्यक्षाचे मोबाईल क्र. टाका </span>
+                                                    अध्यक्षाचे मोबाईल नंबर टाका </span>
+                                                    <span
+                                                    *ngIf="f['leaderMobileNo'].hasError('pattern') && isSubmmited">कृपया
+                                                    अध्यक्षाचे मोबाईल नंबर बरोबर टाका </span>
                                             </span>
                                         </div>
                                     </div>
@@ -179,15 +182,19 @@
                                             </span>
                                         </div>
                                         <div class="col-sm-5">
-                                            <input type="text" class="form-control" placeholder="मोबाईल क्र."
+                                            <input type="text" class="form-control" placeholder="मोबाईल नंबर"
                                             maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)"
                                                 formControlName="vicleadermobileNo">
+                   
                                             <span *ngIf="f['vicleadermobileNo'].errors && isSubmmited"
-                                                class="invalid-error">
+                                            class="invalid-error">
+                                            <span
+                                                *ngIf="f['vicleadermobileNo'].hasError('required') && isSubmmited">कृपया
+                                                उपाध्यक्षाचे मोबाईल नंबर टाका </span>
                                                 <span
-                                                    *ngIf="f['vicleadermobileNo'].hasError('required') && isSubmmited">कृपया
-                                                    उपाध्यक्षाचे मोबाईल क्र. टाका </span>
-                                            </span>
+                                                *ngIf="f['vicleadermobileNo'].hasError('pattern') && isSubmmited">कृपया
+                                                उपाध्यक्षाचे मोबाईल नंबर बरोबर टाका </span>
+                                        </span>
                                         </div>
                                     </div>
                                 </div>
@@ -211,11 +218,20 @@
                                             <div class="input-group">
                                                 <input type="text" class="form-control rounded me-1"
                                                 maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)"
-                                                    formControlName="memberMobileNo" placeholder="मोबाईल क्र.">
-                                                <span *ngIf="f['memberMobileNo'].errors " class="invalid-error">
+                                                    formControlName="memberMobileNo" placeholder="मोबाईल नंबर">
+                                                <!-- <span *ngIf="f['memberMobileNo'].errors " class="invalid-error">
                                                     <span *ngIf="f['memberMobileNo'].hasError('required') ">कृपया
                                                         सदस्याचे मोबाईल क्र. टाका </span>
-                                                </span>
+                                                </span> -->
+                                                <span *ngIf="f['memberMobileNo'].errors && isSubmmited"
+                                                class="invalid-error">
+                                                <span
+                                                    *ngIf="f['memberMobileNo'].hasError('required') && isSubmmited">कृपया
+                                                    सदस्याचे मोबाईल नंबर टाका </span>
+                                                    <span
+                                                    *ngIf="f['memberMobileNo'].hasError('pattern') && isSubmmited">कृपया
+                                                    सदस्याचे मोबाईल नंबर बरोबर टाका </span>
+                                            </span>
                                                 <button type="button" class="btn bg-light-main text-main rounded"
                                                     (click)="addMember()">Add</button>
                                             </div>
@@ -262,13 +278,22 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" placeholder="मोबाईल क्र."
+                                    <input type="text" class="form-control" placeholder="मोबाईल नंबर"
                                     maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)"
                                         formControlName="selfPersonMobile">
-                                    <span *ngIf="f['selfPersonMobile'].errors && isSubmmited" class="invalid-error">
+                                    <!-- <span *ngIf="f['selfPersonMobile'].errors && isSubmmited" class="invalid-error">
                                         <span *ngIf="f['selfPersonMobile'].hasError('required') && isSubmmited">कृपया
                                             स्वतःचे नाव. टाका </span>
-                                    </span>
+                                    </span> -->
+                                    <span *ngIf="f['selfPersonMobile'].errors && isSubmmited"
+                                    class="invalid-error">
+                                    <span
+                                        *ngIf="f['selfPersonMobile'].hasError('required') && isSubmmited">कृपया
+                                        स्वतःचे मोबाईल नंबर टाका </span>
+                                        <span
+                                        *ngIf="f['selfPersonMobile'].hasError('pattern') && isSubmmited">कृपया
+                                        स्वतःचे मोबाईल नंबर बरोबर टाका </span>
+                                </span>
                                 </div>
                             </div>
                         </ng-container>
