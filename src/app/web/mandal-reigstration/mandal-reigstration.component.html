@@ -240,6 +240,9 @@
                                 <div class="col-sm-5">
                                     <input type="number" class="form-control" placeholder="मोबाईल क्र."
                                         formControlName="selfPersonMobile">
+                                        <span *ngIf="f['selfPersonMobile'].errors && isSubmmited" class="invalid-error">
+                                            <span *ngIf="f['selfPersonMobile'].hasError('required') && isSubmmited">कृपया स्वतःचे नाव. टाका </span>
+                                        </span>
                                 </div>
                             </div>
                         </ng-container>

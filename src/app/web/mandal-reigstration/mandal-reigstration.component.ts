@@ -34,11 +34,11 @@ export class MandalReigstrationComponent implements OnInit {
       "zpgatId": ['', Validators.required],
       "clientId": ['', Validators.required],
       "villageName": ['', Validators.required],
-      "personName": ['', ],
-      "leadername": [''],
-      "leaderMobileNo": [''],
-      "vicLeadername": [''],
-      "vicleadermobileNo": [''],
+      "personName": ['',[Validators.required] ],
+      "leadername": ['',[Validators.required]],
+      "leaderMobileNo": ['',[Validators.required]],
+      "vicLeadername": ['',[Validators.required]],
+      "vicleadermobileNo": ['',[Validators.required]],
       "memberName": [''],
       "memberMobileNo": [''],
       "amount": 0,
@@ -112,6 +112,38 @@ export class MandalReigstrationComponent implements OnInit {
 
   checkCompetitionType(data: any) {
     this.competitionType = data.id;
+    if(this.competitionType ==1){
+      this.registrationForm.get('personName')?.setValidators([Validators.required]);
+      this.registrationForm.controls["personName"].updateValueAndValidity();
+      this.registrationForm.get('leadername')?.setValidators([Validators.required]);
+      this.registrationForm.controls["leadername"].updateValueAndValidity();
+      this.registrationForm.get('leaderMobileNo')?.setValidators([Validators.required]);
+      this.registrationForm.controls["leaderMobileNo"].updateValueAndValidity();
+      this.registrationForm.get('vicLeadername')?.setValidators([Validators.required]);
+      this.registrationForm.controls["vicLeadername"].updateValueAndValidity();
+      this.registrationForm.get('vicleadermobileNo')?.setValidators([Validators.required]);
+      this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
+
+    }else if(this.competitionType == 2) {
+      this.registrationForm.controls["personName"].clearValidators();
+      this.registrationForm.controls["personName"].updateValueAndValidity();
+      this.registrationForm.controls["leadername"].clearValidators();      
+      this.registrationForm.controls["leadername"].updateValueAndValidity();
+      this.registrationForm.controls["leaderMobileNo"].clearValidators();   
+      this.registrationForm.controls["leaderMobileNo"].updateValueAndValidity();
+      this.registrationForm.controls["vicLeadername"].clearValidators();   
+      this.registrationForm.controls["vicLeadername"].updateValueAndValidity();
+      this.registrationForm.controls["vicleadermobileNo"].clearValidators(); 
+      this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
+
+      this.registrationForm.get('selfPersonName')?.setValidators([Validators.required]);
+      this.registrationForm.controls["selfPersonName"].updateValueAndValidity();
+      this.registrationForm.get('selfPersonMobile')?.setValidators([Validators.required]);
+      this.registrationForm.controls["selfPersonMobile"].updateValueAndValidity();
+
+
+    }
+
   }
 
   submitData() {
