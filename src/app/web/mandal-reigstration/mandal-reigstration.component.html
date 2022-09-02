@@ -67,7 +67,8 @@
                                 <ng-container *ngFor="let item of competitionTypeArray">
                                     <div class="form-check form-check-inline">
 
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" [checked]="competitionType == item.id ? true:false"
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                            [checked]="competitionType == item.id ? true:false"
                                             (change)="checkCompetitionType(item)" [value]="item.id">
                                         <label class="form-check-label">
                                             {{item.competitionName}}
@@ -94,7 +95,8 @@
                                     </option>
                                 </select>
                                 <span *ngIf="f['zpgatId'].errors && isSubmmited" class="invalid-error">
-                                    <span *ngIf="f['zpgatId'].hasError('required') && isSubmmited">कृपया जिल्हा परिषद गट निवडा </span>
+                                    <span *ngIf="f['zpgatId'].hasError('required') && isSubmmited">कृपया जिल्हा परिषद गट
+                                        निवडा </span>
                                     <!-- <span *ngIf="f['zpgatId'].hasError('pattern')"> जिल्हा परिषद गट </span> -->
                                 </span>
                             </div>
@@ -106,9 +108,10 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" placeholder="गावाचे नाव "
                                     formControlName='villageName'>
-                                    <span *ngIf="f['villageName'].errors && isSubmmited" class="invalid-error">
-                                        <span *ngIf="f['villageName'].hasError('required') && isSubmmited"> कृपया गावाचे नाव टाका </span>
-                                    </span>
+                                <span *ngIf="f['villageName'].errors && isSubmmited" class="invalid-error">
+                                    <span *ngIf="f['villageName'].hasError('required') && isSubmmited"> कृपया गावाचे नाव
+                                        टाका </span>
+                                </span>
                             </div>
                         </div>
                         <div *ngIf="this.competitionType == 1">
@@ -119,9 +122,10 @@
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" placeholder="मंडळाचे नाव"
                                         formControlName='personName'>
-                                        <span *ngIf="f['personName'].errors && isSubmmited" class="invalid-error">
-                                            <span *ngIf="f['personName'].hasError('required') && isSubmmited">कृपया मंडळाचे नाव टाका </span>
-                                        </span>
+                                    <span *ngIf="f['personName'].errors && isSubmmited" class="invalid-error">
+                                        <span *ngIf="f['personName'].hasError('required') && isSubmmited">कृपया मंडळाचे
+                                            नाव टाका </span>
+                                    </span>
                                 </div>
                             </div>
                             <div class="row mb-3 align-content-center">
@@ -134,16 +138,20 @@
                                         <div class="col-sm-5">
                                             <input type="text" class="form-control" placeholder="अध्यक्षाचे नाव"
                                                 formControlName="leadername">
-                                                <span *ngIf="f['leadername'].errors && isSubmmited" class="invalid-error">
-                                                    <span *ngIf="f['leadername'].hasError('required') && isSubmmited">कृपया अध्यक्षाचे नाव टाका </span>
-                                                </span>
+                                            <span *ngIf="f['leadername'].errors && isSubmmited" class="invalid-error">
+                                                <span *ngIf="f['leadername'].hasError('required') && isSubmmited">कृपया
+                                                    अध्यक्षाचे नाव टाका </span>
+                                            </span>
                                         </div>
                                         <div class="col-sm-5">
                                             <input type="number" class="form-control" placeholder="मोबाईल क्र.  "
                                                 formControlName="leaderMobileNo">
-                                                <span *ngIf="f['leaderMobileNo'].errors && isSubmmited" class="invalid-error">
-                                                    <span *ngIf="f['leaderMobileNo'].hasError('required') && isSubmmited">कृपया अध्यक्षाचे मोबाईल क्र. टाका </span>
-                                                </span>
+                                            <span *ngIf="f['leaderMobileNo'].errors && isSubmmited"
+                                                class="invalid-error">
+                                                <span
+                                                    *ngIf="f['leaderMobileNo'].hasError('required') && isSubmmited">कृपया
+                                                    अध्यक्षाचे मोबाईल क्र. टाका </span>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -158,16 +166,22 @@
                                         <div class="col-sm-5">
                                             <input type="text" class="form-control" placeholder="उपाध्यक्षाचे नाव"
                                                 formControlName="vicLeadername">
-                                                <span *ngIf="f['vicLeadername'].errors && isSubmmited" class="invalid-error">
-                                                    <span *ngIf="f['vicLeadername'].hasError('required') && isSubmmited">कृपया उपाध्यक्षाचे नाव टाका </span>
-                                                </span>
+                                            <span *ngIf="f['vicLeadername'].errors && isSubmmited"
+                                                class="invalid-error">
+                                                <span
+                                                    *ngIf="f['vicLeadername'].hasError('required') && isSubmmited">कृपया
+                                                    उपाध्यक्षाचे नाव टाका </span>
+                                            </span>
                                         </div>
                                         <div class="col-sm-5">
                                             <input type="number" class="form-control" placeholder="मोबाईल क्र.  "
                                                 formControlName="vicleadermobileNo">
-                                                <span *ngIf="f['vicleadermobileNo'].errors && isSubmmited" class="invalid-error">
-                                                    <span *ngIf="f['vicleadermobileNo'].hasError('required') && isSubmmited">कृपया उपाध्यक्षाचे मोबाईल क्र. टाका </span>
-                                                </span>
+                                            <span *ngIf="f['vicleadermobileNo'].errors && isSubmmited"
+                                                class="invalid-error">
+                                                <span
+                                                    *ngIf="f['vicleadermobileNo'].hasError('required') && isSubmmited">कृपया
+                                                    उपाध्यक्षाचे मोबाईल क्र. टाका </span>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -175,36 +189,38 @@
                             <div class="row mb-3 align-content-center">
                                 <div class="col-sm-2"></div>
                                 <div class="col-sm-10">
-                                    <div class="row gx-2">
+                                    <div class="row gx-2 mb-2">
                                         <div class="col-sm-2">
                                             <label class="form-label py-lg-2 p-0">सदस्याचे नाव :</label>
                                         </div>
                                         <div class="col-sm-5">
                                             <input type="text" class="form-control" placeholder="सदस्याचे नाव"
                                                 formControlName="memberName">
-                                                <span *ngIf="f['memberName'].errors " class="invalid-error">
-                                                    <span *ngIf="f['memberName'].hasError('required') ">कृपया सदस्याचे नाव टाका </span>
-                                                </span>
+                                            <span *ngIf="f['memberName'].errors " class="invalid-error">
+                                                <span *ngIf="f['memberName'].hasError('required') ">कृपया सदस्याचे नाव
+                                                    टाका </span>
+                                            </span>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="input-group">
                                                 <input type="number" class="form-control rounded me-1"
                                                     formControlName="memberMobileNo" placeholder="मोबाईल क्र.">
-                                                    <span *ngIf="f['memberMobileNo'].errors " class="invalid-error">
-                                                        <span *ngIf="f['memberMobileNo'].hasError('required') ">कृपया सदस्याचे मोबाईल क्र. टाका </span>
-                                                    </span>
+                                                <span *ngIf="f['memberMobileNo'].errors " class="invalid-error">
+                                                    <span *ngIf="f['memberMobileNo'].hasError('required') ">कृपया
+                                                        सदस्याचे मोबाईल क्र. टाका </span>
+                                                </span>
                                                 <button type="button" class="btn bg-light-main text-main rounded"
                                                     (click)="addMember()">Add</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" *ngIf="memberArray.length > 0">
                                         <thead>
                                             <tr>
-                                                <th>Sr. No.</th>
-                                                <th>Sadasyache Naav</th>
-                                                <th>Mobile No.</th>
-                                                <th>Delete</th>
+                                                <th>अनु. क्र.</th>
+                                                <th>सदस्याचे नाव</th>
+                                                <th>मोबाईल क्र.</th>
+                                                <th>काढून टाका </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -233,16 +249,18 @@
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" placeholder="स्वतःचे नाव"
                                         formControlName="selfPersonName">
-                                        <span *ngIf="f['selfPersonName'].errors && isSubmmited" class="invalid-error">
-                                            <span *ngIf="f['selfPersonName'].hasError('required') && isSubmmited">कृपया स्वतःचे नाव. टाका </span>
-                                        </span>
+                                    <span *ngIf="f['selfPersonName'].errors && isSubmmited" class="invalid-error">
+                                        <span *ngIf="f['selfPersonName'].hasError('required') && isSubmmited">कृपया
+                                            स्वतःचे नाव. टाका </span>
+                                    </span>
                                 </div>
                                 <div class="col-sm-5">
                                     <input type="number" class="form-control" placeholder="मोबाईल क्र."
                                         formControlName="selfPersonMobile">
-                                        <span *ngIf="f['selfPersonMobile'].errors && isSubmmited" class="invalid-error">
-                                            <span *ngIf="f['selfPersonMobile'].hasError('required') && isSubmmited">कृपया स्वतःचे नाव. टाका </span>
-                                        </span>
+                                    <span *ngIf="f['selfPersonMobile'].errors && isSubmmited" class="invalid-error">
+                                        <span *ngIf="f['selfPersonMobile'].hasError('required') && isSubmmited">कृपया
+                                            स्वतःचे नाव. टाका </span>
+                                    </span>
                                 </div>
                             </div>
                         </ng-container>
@@ -263,7 +281,7 @@
                                                 <i class="fa-regular fa-trash-can"></i>
                                             </button>
                                         </div>
-                                    </div>                                  
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -298,16 +316,18 @@
                             <div class="col-sm-10">
                                 <textarea rows="4" class="form-control" placeholder="अधिक माहिती "
                                     formControlName="moreInfo"></textarea>
-                                    <span *ngIf="f['moreInfo'].errors && isSubmmited" class="invalid-error">
-                                        <span *ngIf="f['moreInfo'].hasError('required') && isSubmmited">कृपया सजावटी संदर्भात टाका </span>
-                                    </span>
+                                <span *ngIf="f['moreInfo'].errors && isSubmmited" class="invalid-error">
+                                    <span *ngIf="f['moreInfo'].hasError('required') && isSubmmited">कृपया सजावटी
+                                        संदर्भात टाका </span>
+                                </span>
                             </div>
                         </div>
                         <div class="row mb-3 align-content-center">
                             <div class="col-sm-2">
                             </div>
                             <div class="col-sm-10">
-                                <button type="submit" class="btn btn-main btn-lg">
+                                <button type="submit" class="btn btn-main btn-lg" data-bs-toggle="modal"
+                                    data-bs-target="#SuccessModal">
                                     जतन करा
                                 </button>
                             </div>
@@ -363,4 +383,25 @@
     </div>
 </div>
 
-
+<!-- Modal -->
+<div class="modal fade" id="SuccessModal" tabindex="-1" aria-labelledby="SuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="SuccessModalLabel">Success</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="success-checkmark mb-3">
+                    <div class="check-icon">
+                        <span class="icon-line line-tip"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
+                </div>
+                <h3 class="text-success mb-0">Data Saved Successfully.</h3>
+            </div>
+        </div>
+    </div>
+</div>
