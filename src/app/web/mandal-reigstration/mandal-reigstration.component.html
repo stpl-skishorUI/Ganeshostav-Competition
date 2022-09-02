@@ -90,8 +90,8 @@
                                 <label class="form-label py-lg-2 p-0">जिल्हा परिषद गट / शहर :</label>
                             </div>
                             <div class="col-sm-10">
-                                <select class="form-select" formControlName="zpgatId">
-                                    <option *ngFor="let name of zpNameArr" [value]="name?.id" (change)="hidevillage = name?.isCity">{{name?.zpgatName}}
+                                <select class="form-select" formControlName="zpgatId"  (change)="wdf()">
+                                    <option *ngFor="let name of zpNameArr" [value]="name?.id">{{name?.zpgatName}}
                                     </option>
                                 </select>
                                 <span *ngIf="f['zpgatId'].errors && isSubmmited" class="invalid-error">
@@ -101,9 +101,9 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="row mb-3 align-content-center">
-                            <div class="col-sm-2" *ngIf="hidevillage != 1">
-                                <label class="form-label py-lg-2 p-0">गावाचे नाव : {{hidevillage}}</label>
+                        <div class="row mb-3 align-content-center"  *ngIf="villageHide != 1">
+                            <div class="col-sm-2">
+                                <label class="form-label py-lg-2 p-0">गावाचे नाव : </label>
                             </div>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" placeholder="गावाचे नाव "

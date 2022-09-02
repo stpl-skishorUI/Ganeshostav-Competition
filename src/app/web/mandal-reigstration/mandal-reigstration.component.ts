@@ -49,7 +49,7 @@ export class MandalReigstrationComponent implements OnInit {
       "competitionTypeId": [''],
       "zpgatId": ['', Validators.required],
       "clientId": [''],
-      "villageName": ['', Validators.required],
+      "villageName": [''],
       "personName": ['', [Validators.required]],
       "leadername": ['', [Validators.required]],
       "leaderMobileNo": ['', [Validators.required]],
@@ -77,7 +77,7 @@ export class MandalReigstrationComponent implements OnInit {
   }
 
   getZPName() {
-    let id = this.href.includes('maan.erpguru.in') ? 1 : 2;
+    let id = this.href.includes('maan.erpguru.in') ? 1 : 1;
     this.apiService.setHttp('get', "api/Competition/GetZPGATName", false, false, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -99,6 +99,26 @@ export class MandalReigstrationComponent implements OnInit {
       })
     })
   }
+  villageHide :any;
+  wdf(){
+    let ZpNameid= this.registrationForm.value.zpgatId;
+    this.zpNameArr.find((ele:any)=>{
+      (ZpNameid == ele.id ) ? this.villageHide = ele.isCity : ''
+    })
+
+    if (this.villageHide == 1) {
+      this.registrationForm.controls["villageName"].setValue('');
+      this.registrationForm.controls["villageName"].clearValidators();
+      this.registrationForm.controls["villageName"].updateValueAndValidity();
+    } else {
+      this.registrationForm.get('villageName')?.setValidators([Validators.required]);
+    this.registrationForm.controls["villageName"].updateValueAndValidity();
+    }
+
+  }
+
+
+
 
   addMember() {
     this.registrationForm.get('memberName')?.setValidators([Validators.required]);
@@ -191,9 +211,18 @@ export class MandalReigstrationComponent implements OnInit {
   submitData() {
     this.isSubmmited = true;
     let formData = this.registrationForm.value;
+   
     if (this.registrationForm.invalid || this.galleryImagArray?.length > 2 || this.commonService.checkDataType(this.videopath) == false) {
       return
     }
+
+      if(this.memberArray?.length < 6 &&   this.competitionType == 1){
+        this.commonService.showError("Please Add Minimun 7 Member");
+        return;
+      }
+  
+   
+
     this.spinner.show();
     if (this.competitionType ==1){
       let temp = {
@@ -400,11 +429,13 @@ export class MandalReigstrationComponent implements OnInit {
             if (boltResponse.status == "success" || boltResponse.status == "failure") {
               this.commonService.showSuccess("Payment Success.");
               //API Calling
+              this.updatePaymentStatus(userId,boltResponse);    
              }
           } else {
             let boltResponse = BOLT.response;
              this.commonService.showError("Payment cancelled by user");
              ////API Calling
+             BOLT.response.txnStatus != "CANCEL" ?this.updatePaymentStatus(userId,boltResponse):'';
           }
           return BOLT.response;
         },
@@ -416,7 +447,29 @@ export class MandalReigstrationComponent implements OnInit {
       // this.toastrService.error('Something went wrong please try again. Try again');
     }
   }
-
+  updatePaymentStatus(userId:any,boltResponse:any){
+    let obj ={
+        "competitionId": +userId,
+        "paymentId":userId.toString(),
+        "paymentStatus": boltResponse?.status,
+        "payuMoneyId": boltResponse?.txnid,
+        "amount": this.amount,
+        "responseStr":''//boltResponse  
+    }
+    this.apiService.setHttp('put', "api/CompetitionPayment/UpdatePaymentStatus", false, obj, false, 'masterUrl');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === "200") {
+        
+        } else {
+          this.commonService.showError(res.statusMessage);
+        }
+      },
+      error: ((error: any) => {
+        this.error.handelError(error.status)
+      })
+    })
+  }
   resetForm() {
     this.registrationForm.reset();
     this.registrationForm.controls["zpgatId"].setValue('');
@@ -425,4 +478,6 @@ export class MandalReigstrationComponent implements OnInit {
     this.galleryImagArray = [];
     this.sendPayObj = '';
   }
+
+          
 }
