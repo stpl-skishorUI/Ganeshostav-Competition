@@ -30,9 +30,9 @@ export class MandalReigstrationComponent implements OnInit {
 
   defulatForm() {
     this.registrationForm = this.fb.group({
-      "competitionTypeId": ['', Validators.required],
+      "competitionTypeId": [''],
       "zpgatId": ['', Validators.required],
-      "clientId": ['', Validators.required],
+      "clientId": [''],
       "villageName": ['', Validators.required],
       "personName": ['',[Validators.required] ],
       "leadername": ['',[Validators.required]],
@@ -78,23 +78,29 @@ export class MandalReigstrationComponent implements OnInit {
   }
 
   addMember() {
-    if (this.f.memberName.status == 'Invalid' || this.f.memberMobileNo.status == 'Invalid') {
-      return;
+    this.registrationForm.get('memberName')?.setValidators([Validators.required]);
+      this.registrationForm.controls["memberName"].updateValueAndValidity();
+    this.registrationForm.get('memberMobileNo')?.setValidators([Validators.required]);
+      this.registrationForm.controls["memberMobileNo"].updateValueAndValidity();
+    if (this.f.memberName.status == 'VALID' && this.f.memberMobileNo.status == 'VALID') {
+      let obj = {
+        "createdBy": 0,
+        "modifiedBy": 0,
+        "createdDate": new Date(),
+        "modifiedDate": new Date(),
+        "isDeleted": false,
+        "id": 0,
+        "competitionId": 2,
+        "designationId": 3,
+        "personName": this.registrationForm.value.memberName,
+        "mobileNo": this.registrationForm.value.memberMobileNo.toString()
+      }
+      this.memberArray.push(obj);
     }
-
-    let obj = {
-      "createdBy": 0,
-      "modifiedBy": 0,
-      "createdDate": new Date(),
-      "modifiedDate": new Date(),
-      "isDeleted": false,
-      "id": 0,
-      "competitionId": 2,
-      "designationId": 3,
-      "personName": this.registrationForm.value.memberName,
-      "mobileNo": this.registrationForm.value.memberMobileNo.toString()
-    }
-    this.memberArray.push(obj);
+    this.registrationForm.controls["memberName"].clearValidators();
+    this.registrationForm.controls["memberName"].updateValueAndValidity();
+    this.registrationForm.controls["memberMobileNo"].clearValidators();
+    this.registrationForm.controls["memberMobileNo"].updateValueAndValidity();
     this.registrationForm.controls['memberName'].setValue('');
     this.registrationForm.controls['memberMobileNo'].setValue('');
   }
@@ -113,6 +119,13 @@ export class MandalReigstrationComponent implements OnInit {
   checkCompetitionType(data: any) {
     this.competitionType = data.id;
     if(this.competitionType ==1){
+      this.registrationForm.controls["selfPersonName"].setValue('');
+      this.registrationForm.controls["selfPersonMobile"].setValue('');
+      this.registrationForm.controls["selfPersonName"].clearValidators();
+      this.registrationForm.controls["selfPersonName"].updateValueAndValidity();
+      this.registrationForm.controls["selfPersonMobile"].clearValidators();
+      this.registrationForm.controls["selfPersonMobile"].updateValueAndValidity();
+
       this.registrationForm.get('personName')?.setValidators([Validators.required]);
       this.registrationForm.controls["personName"].updateValueAndValidity();
       this.registrationForm.get('leadername')?.setValidators([Validators.required]);
@@ -125,14 +138,19 @@ export class MandalReigstrationComponent implements OnInit {
       this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
 
     }else if(this.competitionType == 2) {
+      this.registrationForm.controls["personName"].setValue('');
       this.registrationForm.controls["personName"].clearValidators();
       this.registrationForm.controls["personName"].updateValueAndValidity();
+      this.registrationForm.controls["leadername"].setValue('');
       this.registrationForm.controls["leadername"].clearValidators();      
       this.registrationForm.controls["leadername"].updateValueAndValidity();
+      this.registrationForm.controls["leaderMobileNo"].setValue('');
       this.registrationForm.controls["leaderMobileNo"].clearValidators();   
       this.registrationForm.controls["leaderMobileNo"].updateValueAndValidity();
+      this.registrationForm.controls["vicLeadername"].setValue('');
       this.registrationForm.controls["vicLeadername"].clearValidators();   
       this.registrationForm.controls["vicLeadername"].updateValueAndValidity();
+      this.registrationForm.controls["vicleadermobileNo"].setValue('');
       this.registrationForm.controls["vicleadermobileNo"].clearValidators(); 
       this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
 

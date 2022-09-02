@@ -182,16 +182,16 @@
                                         <div class="col-sm-5">
                                             <input type="text" class="form-control" placeholder="सदस्याचे नाव"
                                                 formControlName="memberName">
-                                                <span *ngIf="f['memberName'].errors && isSubmmited" class="invalid-error">
-                                                    <span *ngIf="f['memberName'].hasError('required') && isSubmmited">कृपया सदस्याचे नाव टाका </span>
+                                                <span *ngIf="f['memberName'].errors " class="invalid-error">
+                                                    <span *ngIf="f['memberName'].hasError('required') ">कृपया सदस्याचे नाव टाका </span>
                                                 </span>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="input-group">
                                                 <input type="number" class="form-control rounded me-1"
                                                     formControlName="memberMobileNo" placeholder="मोबाईल क्र.">
-                                                    <span *ngIf="f['memberMobileNo'].errors && isSubmmited" class="invalid-error">
-                                                        <span *ngIf="f['memberMobileNo'].hasError('required') && isSubmmited">कृपया सदस्याचे मोबाईल क्र. टाका </span>
+                                                    <span *ngIf="f['memberMobileNo'].errors " class="invalid-error">
+                                                        <span *ngIf="f['memberMobileNo'].hasError('required') ">कृपया सदस्याचे मोबाईल क्र. टाका </span>
                                                     </span>
                                                 <button type="button" class="btn bg-light-main text-main rounded"
                                                     (click)="addMember()">Add</button>
@@ -362,3 +362,5 @@
         </div>
     </div>
 </div>
+
+
