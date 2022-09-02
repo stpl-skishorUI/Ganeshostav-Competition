@@ -78,7 +78,7 @@ export class MandalReigstrationComponent implements OnInit {
   }
 
   getZPName() {
-    let id = this.href.includes('maan.erpguru.in') ? 1 : 1;
+    let id = this.href.includes('maan.erpguru.in') ? 1 : 2;
     this.apiService.setHttp('get', "api/Competition/GetZPGATName", false, false, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {

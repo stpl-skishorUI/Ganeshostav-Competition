@@ -274,13 +274,13 @@
                             </div>
                             <div class="col-sm-10">
                                 <input type="file" multiple formControlName="imagePath" placeholder="सजावटीचे फोटो"
-                                    (change)="imageUpload($event)" class="form-control" #fileInput>
+                                    (change)="imageUpload($event)" class="form-control mb-3" #fileInput>
                                 <div class="d-flex flex-wrap">
-                                    <div class="upload-photo">
-                                        <div class="uploaded-images"
-                                            *ngFor="let galleryImag of galleryImagArray;let i=index">
-                                            <img [src]="galleryImag?.imagePath">
-                                            <button class="btn bg-danger bg-opacity-10 text-danger"
+                                    <div class="upload-photo"
+                                    *ngFor="let galleryImag of galleryImagArray;let i=index">
+                                    <img [src]="galleryImag?.imagePath">
+                                        <div class="uploaded-images">
+                                            <button class="btn bg-light text-danger btn-sm rounded-circle"
                                                 (click)="deleteImage(i)">
                                                 <i class="fa-regular fa-trash-can"></i>
                                             </button>
@@ -406,7 +406,7 @@
                         <div class="icon-fix"></div>
                     </div>
                 </div>
-                <h3 class="text-success mb-0">Data Saved Successfully.</h3>
+                <h3 class="text-success mb-0">आपण या स्पर्धेमध्ये सहभागी झाल्याबद्दल आपले मन:पुर्वक आभार.</h3>
             </div>
         </div>
     </div>
