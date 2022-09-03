@@ -29,7 +29,7 @@ export class ParticipentListComponent implements OnInit {
   hideCompetitionDiv:boolean = false;
   getCompetitionDetailArray: any;
   competitionDetailObj: any;
-  @ViewChild("videoPlayer", { static: false }) videoPlayer!: ElementRef;
+  @ViewChild("videoPlayer", { static: false }) videoPlayer: ElementRef | any;
 
   constructor(
     private apiService: ApiService,
@@ -149,7 +149,7 @@ export class ParticipentListComponent implements OnInit {
     this.competitionDetailObj = obj;
     this.getOtherCompetitionDetail(obj.id)
     this.hideCompetitionDiv = true;
-    this.videoPlayer.nativeElement.src = this.competitionDetailObj?.videoPath;
+    this.commonService.checkDataType(this.videoPlayer) == true ? (this.videoPlayer.nativeElement.src = this.competitionDetailObj?.videoPath) : '';
   }
 
   getOtherCompetitionDetail(competitionId:any) {
