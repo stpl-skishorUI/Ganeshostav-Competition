@@ -313,7 +313,7 @@ export class MandalReigstrationComponent implements OnInit {
     }
     this.spinner.show();
     this.sendPayObj = obj;
-    this.apiService.setHttp('post', "api/Competition", false, obj, false, 'masterUrl');
+    this.apiService.setHttp('post', "api/Competition/Competition", false, obj, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
@@ -459,10 +459,10 @@ export class MandalReigstrationComponent implements OnInit {
             let boltResponse = BOLT.response;
             if (boltResponse.status == "success") {
               this.commonService.showSuccess("Payment Success.");
-              this.openSuccessModel.nativeElement.click();
-              this.resetForm();
+              this.openSuccessModel.nativeElement.click();             
               //API Calling
               this.updatePaymentStatus(userId, boltResponse);
+              this.resetForm();
             } else {
               this.commonService.showError("Payment Failed");
              
