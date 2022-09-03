@@ -92,7 +92,7 @@
                 <div class="col-sm-4" *ngFor="let imageListObj of getCompetitionDetailArray?.imageList; let i =index">
                     <div class="card card-body">
                         <img
-                        (click)="showImageLightbox(getCompetitionDetailArray?.imageList) ; lightbox.open(i, 'lightbox')"
+                        (click)="showImageLightbox(getCompetitionDetailArray?.imageList); lightbox.open(i, 'lightbox')"
                         [src]="imageListObj?.imagePath" alt="..."
                         class="">
                     </div>
