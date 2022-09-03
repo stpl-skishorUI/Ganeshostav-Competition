@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -29,6 +29,7 @@ export class ParticipentListComponent implements OnInit {
   hideCompetitionDiv:boolean = false;
   getCompetitionDetailArray: any;
   competitionDetailObj: any;
+  @ViewChild("videoPlayer", { static: false }) videoPlayer!: ElementRef;
 
   constructor(
     private apiService: ApiService,
@@ -144,10 +145,12 @@ export class ParticipentListComponent implements OnInit {
   }
 
   showCompetitionData(obj: any) {
+    
     this.heighLightRow = obj.id;
     this.competitionDetailObj = obj;
     this.getOtherCompetitionDetail(obj.id)
     this.hideCompetitionDiv = true;
+    this.videoPlayer.nativeElement.src = this.competitionDetailObj.videoPath;
   }
 
   getOtherCompetitionDetail(competitionId:any) {

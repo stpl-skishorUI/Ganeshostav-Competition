@@ -89,12 +89,12 @@
                     <h6 class="text-muted">सजावटीचे फोटो :</h6>
                 </div>
 
-                <div class="col-sm-4" *ngFor="let imageListObj of getCompetitionDetailArray?.imageList">
+                <div class="col-sm-4" *ngFor="let imageListObj of getCompetitionDetailArray?.imageList; let i =index">
                     <div class="card card-body">
                         <img
-                        (click)="showImageLightbox(getCompetitionDetailArray?.imageList) ; lightbox.open(0, 'lightbox')"
+                        (click)="showImageLightbox(getCompetitionDetailArray?.imageList) ; lightbox.open(i, 'lightbox')"
                         [src]="imageListObj?.imagePath" alt="..."
-                        class="img-fluid">
+                        class="">
                     </div>
                 </div>
                 <!-- <div class="col-sm-4">
@@ -112,8 +112,8 @@
                 <div class="col-sm-4">
                     <h6 class="text-muted">सजावटीचे व्हिडिओ :</h6>
                     <div class="card card-body">  
-                        <video width="220" height="140" controls>
-                            <source [src]="competitionDetailObj?.videoPath" type="video/mp4">
+                        <video #videoPlayer width="220" height="140" controls>
+                            <source [src]="competitionDetailObj?.videoPath">
                         </video>
                     </div>
                 </div>
