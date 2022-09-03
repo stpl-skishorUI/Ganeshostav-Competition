@@ -252,16 +252,19 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let item of memberArray let i=index">
-                                                    <td  *ngIf="item?.designationId != 1 || item?.designationId != 2 ">{{i+1}}</td>
-                                                    <td  *ngIf="item?.designationId != 1 || item?.designationId != 2 ">{{item?.personName}}</td>
-                                                    <td  *ngIf="item?.designationId != 1 || item?.designationId != 2 ">{{item?.mobileNo}}</td>
-                                                    <td  *ngIf="item?.designationId != 1 || item?.designationId != 2 ">
-                                                        <button class="btn btn-sm bg-danger bg-opacity-10 text-danger"
-                                                            (click)="deleteMember(i,item)">
-                                                            <i class="fa-regular fa-trash-can"></i>
-                                                        </button>
-                                                    </td>
+                                                <tr *ngFor="let item of memberArray let i=index" >
+                                                    <ng-container *ngIf="item?.designationId != 1 && item?.designationId != 2 ">
+                                                        <td >{{i+1}}</td>
+                                                        <td  >{{item?.personName}}</td>
+                                                        <td >{{item?.mobileNo}}</td>
+                                                        <td >
+                                                            <button class="btn btn-sm bg-danger bg-opacity-10 text-danger"
+                                                                (click)="deleteMember(i,item)">
+                                                                <i class="fa-regular fa-trash-can"></i>
+                                                            </button>
+                                                        </td>
+                                                    </ng-container>
+                                                    
                                                 </tr>
                                             </tbody>
                                         </table>
