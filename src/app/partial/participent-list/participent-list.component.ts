@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounceTime, Subject } from 'rxjs';
@@ -47,6 +47,7 @@ export class ParticipentListComponent implements OnInit {
   ngOnInit(): void {
     this.href = window.location.href;
     this.defaultFilterForm();
+    this.defultForm();
     this.getCompetitionName();
     this.getZPName();
     this.getCompetitionListData();
@@ -169,5 +170,51 @@ export class ParticipentListComponent implements OnInit {
     new ImageItem({ src: item.imagePath, thumb: item.imagePath, text: 'programGalleryImg' }));
     this.gallery.ref('lightbox').load(images);
   }
+
+  remarksForm: any;
+  isSubmmited: boolean = false;
+  defultForm() {
+    this.remarksForm = this.fb.group({
+      marks: ['', [Validators.required]],
+      remarks: ['', [Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
+    })
+  }
+  get f() {
+    return this.remarksForm.controls;
+  }
+
+  addMarks() {
+    this.isSubmmited = true;
+    let formData = this.remarksForm.value;
+    if (this.remarksForm.invalid) {
+      ((formData.marks == '0' || formData.marks > 10)) ? this.commonService.showError("Please Enter Valid Marks"):''
+      return;
+    }
+   
+    this.spinner.show();
+    let data = "CompetitionId=" + this.heighLightRow + "&Marks=" + formData.marks + "&Remark=" + formData.remarks;
+    this.apiService.setHttp('post', "api/Competition/UpdateMarks?" + data, false, false, false, 'masterUrl');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === "200") {
+          this.spinner.hide();
+          this.resetForm();
+          this.commonService.showSuccess(res.statusMessage);
+        } else {
+          this.spinner.hide();         
+          this.commonService.showError(res.statusMessage);
+        }
+      },
+      error: ((error: any) => {
+        this.error.handelError(error.status)
+      })
+    })
+  }
+
+resetForm(){
+this.remarksForm.reset();
+this.isSubmmited = false;
+}
+
 
 }
