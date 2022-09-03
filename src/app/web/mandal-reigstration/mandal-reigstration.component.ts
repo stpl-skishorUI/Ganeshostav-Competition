@@ -465,9 +465,7 @@ export class MandalReigstrationComponent implements OnInit {
               this.updatePaymentStatus(userId, boltResponse);
             } else {
               this.commonService.showError("Payment Failed");
-              this.resetForm();
-              //API Calling
-              this.updatePaymentStatus(userId, boltResponse);
+             
             }
           } else {
             let boltResponse = BOLT.response;
