@@ -145,12 +145,11 @@ export class ParticipentListComponent implements OnInit {
   }
 
   showCompetitionData(obj: any) {
-    
     this.heighLightRow = obj.id;
     this.competitionDetailObj = obj;
     this.getOtherCompetitionDetail(obj.id)
     this.hideCompetitionDiv = true;
-    this.videoPlayer.nativeElement.src = this.competitionDetailObj.videoPath;
+    this.videoPlayer.nativeElement.src = this.competitionDetailObj?.videoPath;
   }
 
   getOtherCompetitionDetail(competitionId:any) {
