@@ -21,7 +21,7 @@ import { WebHeaderComponent } from './web/web-layout/web-header/web-header.compo
 import { TitleCasePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
-// import { NgxSelectModule } from 'ngx-select-ex';
+import { NgxSelectModule } from 'ngx-select-ex';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -37,7 +37,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    // NgxSelectModule,
+    NgxSelectModule,
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,

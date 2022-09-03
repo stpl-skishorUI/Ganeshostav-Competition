@@ -16,6 +16,11 @@ export class LocalstorageService {
     else return false;
   }
 
+  clientId() {
+    let data = JSON.parse(localStorage['user']);
+    return data.id;
+  }
+
   getLoggedInLocalstorageData() {
     let data = JSON.parse(localStorage['user']);
     return data;
