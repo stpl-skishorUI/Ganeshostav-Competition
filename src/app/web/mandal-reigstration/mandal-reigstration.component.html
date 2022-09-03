@@ -56,7 +56,7 @@
                     संघ राष्ट्रवादी युवक
                     काँग्रेस व महिला राष्ट्रवादी काँग्रेस - पुरंदर आयोजित </h4>
             </div> -->
-            <form [formGroup]="registrationForm" (ngSubmit)="submitData()">
+            <form [formGroup]="registrationForm">
                 <div class="card-body p-4">
                     <div class="form-container">
                         <div class="row mb-3 align-content-center">
@@ -90,7 +90,7 @@
                                 <label class="form-label py-lg-2 p-0">जिल्हा परिषद गट / शहर :</label>
                             </div>
                             <div class="col-sm-10">
-                                <select class="form-select" formControlName="zpgatId"  (change)="wdf()">
+                                <select class="form-select" formControlName="zpgatId"  (change)="addRemoveValidationVillage()">
                                     <option *ngFor="let name of zpNameArr" [value]="name?.id">{{name?.zpgatName}}
                                     </option>
                                 </select>
@@ -222,14 +222,10 @@
                                             </span>
                                         </div>
                                         <div class="col-sm">
-                                            <!-- <div class="input-group"> -->
                                                 <input type="text" class="form-control rounded me-1"
                                                 maxlength="10" (keypress)="commonService.acceptedOnlyNumbers($event)"
                                                     formControlName="memberMobileNo" placeholder="मोबाईल नंबर">
-                                                <!-- <span *ngIf="f['memberMobileNo'].errors " class="invalid-error">
-                                                    <span *ngIf="f['memberMobileNo'].hasError('required') ">कृपया
-                                                        सदस्याचे मोबाईल क्र. टाका </span>
-                                                </span> -->
+                                              
                                                 <span *ngIf="f['memberMobileNo'].errors " class="invalid-error">
                                                 <span
                                                     *ngIf="f['memberMobileNo'].hasError('required')">कृपया
@@ -238,7 +234,6 @@
                                                     *ngIf="f['memberMobileNo'].hasError('pattern')">कृपया
                                                     सदस्याचे मोबाईल नंबर बरोबर टाका </span>
                                             </span>
-                                            <!-- </div> -->
                                             
                                         </div>
                                         <div class="col-sm-auto">
@@ -258,10 +253,10 @@
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let item of memberArray let i=index">
-                                                    <td>{{i+1}}</td>
-                                                    <td>{{item.personName}}</td>
-                                                    <td>{{item.mobileNo}}</td>
-                                                    <td>
+                                                    <td  *ngIf="item?.designationId != 1 || item?.designationId != 2 ">{{i+1}}</td>
+                                                    <td  *ngIf="item?.designationId != 1 || item?.designationId != 2 ">{{item?.personName}}</td>
+                                                    <td  *ngIf="item?.designationId != 1 || item?.designationId != 2 ">{{item?.mobileNo}}</td>
+                                                    <td  *ngIf="item?.designationId != 1 || item?.designationId != 2 ">
                                                         <button class="btn btn-sm bg-danger bg-opacity-10 text-danger"
                                                             (click)="deleteMember(i,item)">
                                                             <i class="fa-regular fa-trash-can"></i>
@@ -374,7 +369,7 @@
                             <div class="col-sm-10">
                                 <button class="d-none" data-bs-target="#SuccessModal" data-bs-toggle="modal" #openSuccessModel></button>
                                 <!--  data-bs-target="#SuccessModal"    data-bs-toggle="modal"-->
-                                <button type="submit" class="btn btn-main btn-lg" 
+                                <button  class="btn btn-main btn-lg" (click)="submitData()"
                                    >
                                     जतन करा
                                 </button>

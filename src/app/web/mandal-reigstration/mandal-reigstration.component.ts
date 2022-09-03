@@ -30,18 +30,20 @@ export class MandalReigstrationComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild('fileInput1') fileInput1!: ElementRef;
   public href: string = "";
-  competitionTypeArray = [{ "id": 1, "competitionName": "सार्वजनिक गणेशोत्सव स्पर्धा " }, { "id": 2, "competitionName": "घरगुती गौरी सजावट स्पर्धा " }]
+  competitionTypeArray:any=[] ;
   sendPayObj: any;
   hashObj: any;
   amount: string = '100';
   videopath: any;
   hidevillage: any;
+  villageHide: any;
   @ViewChild('openSuccessModel') openSuccessModel: any;
 
   ngOnInit(): void {
     this.href = window.location.href;
     this.defulatForm();
     this.getZPName();
+    this.getCompetitionType();
   }
 
 
@@ -84,13 +86,8 @@ export class MandalReigstrationComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === "200") {
           let dataArray = res.responseData;
-          dataArray.map((ele: any, ind: any) => {
-            if (id == ele.clientId) {
-              this.zpNameArr.push(ele);
-            }
-          })
-          this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "isCity": '', "clientId": 1 })
-          console.log(this.zpNameArr);
+          dataArray.map((ele: any) => { (id == ele.clientId) ? this.zpNameArr.push(ele):''})
+          this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "isCity": '', "clientId": 1 })         
         } else {
           this.commonService.showError(res.statusMessage);
         }
@@ -100,8 +97,24 @@ export class MandalReigstrationComponent implements OnInit {
       })
     })
   }
-  villageHide: any;
-  wdf() {
+
+  getCompetitionType(){
+    this.apiService.setHttp('get', "api/Competition/GetCompetitionName", false, false, false, 'masterUrl');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === "200") {
+        this.competitionTypeArray = res.responseData;                
+        } else {
+          this.commonService.showError(res.statusMessage);
+        }
+      },
+      error: ((error: any) => {
+        this.error.handelError(error.status)
+      })
+    })
+  }
+
+  addRemoveValidationVillage() {
     let ZpNameid = this.registrationForm.value.zpgatId;
     this.zpNameArr.find((ele: any) => {
       (ZpNameid == ele.id) ? this.villageHide = ele.isCity : ''
@@ -115,7 +128,6 @@ export class MandalReigstrationComponent implements OnInit {
       this.registrationForm.get('villageName')?.setValidators([Validators.required]);
       this.registrationForm.controls["villageName"].updateValueAndValidity();
     }
-
   }
 
   addMember() {
@@ -445,9 +457,14 @@ export class MandalReigstrationComponent implements OnInit {
         responseHandler: (BOLT: any) => {
           if (BOLT.response.txnStatus != "CANCEL") {
             let boltResponse = BOLT.response;
-            if (boltResponse.status == "success" || boltResponse.status == "failure") {
+            if (boltResponse.status == "success") {
               this.commonService.showSuccess("Payment Success.");
               this.openSuccessModel.nativeElement.click();
+              this.resetForm();
+              //API Calling
+              this.updatePaymentStatus(userId, boltResponse);
+            } else {
+              this.commonService.showError("Payment Failed");
               this.resetForm();
               //API Calling
               this.updatePaymentStatus(userId, boltResponse);

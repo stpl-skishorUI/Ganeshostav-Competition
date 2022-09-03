@@ -25,7 +25,7 @@ export class CommonService {
 
   userId() {
     let userId = this.getLoggedInLocalstorageData();
-    return userId?.responseData?.id;
+    return userId?.id;
   }
 
   checkDataType(val: any) {
@@ -41,6 +41,7 @@ export class CommonService {
   showSuccess(message: any, title?: any) {
     this.toastr.success(message, title)
   }
+
 
   showError(message: any, title?: any) {
     this.toastr.error(message, title)
