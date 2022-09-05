@@ -1,5 +1,4 @@
 .list-group .list-group-item{
-    border: 0;
     border-radius: 0;    
 }
 .list-group .list-group-item:hover,
@@ -20,4 +19,8 @@
 }
 .table th{
     background-color: #eee;
+}
+.photos{
+    height: 254px;
+    object-fit: cover;
 }

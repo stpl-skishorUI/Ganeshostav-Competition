@@ -30,18 +30,20 @@ export class MandalReigstrationComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild('fileInput1') fileInput1!: ElementRef;
   public href: string = "";
-  competitionTypeArray = [{ "id": 1, "competitionName": "सार्वजनिक गणेशोत्सव स्पर्धा " }, { "id": 2, "competitionName": "घरगुती गौरी सजावट स्पर्धा " }]
+  competitionTypeArray:any=[] ;
   sendPayObj: any;
   hashObj: any;
   amount: string = '100';
   videopath: any;
   hidevillage: any;
+  villageHide: any;
   @ViewChild('openSuccessModel') openSuccessModel: any;
 
   ngOnInit(): void {
     this.href = window.location.href;
     this.defulatForm();
     this.getZPName();
+    this.getCompetitionType();
   }
 
 
@@ -51,10 +53,10 @@ export class MandalReigstrationComponent implements OnInit {
       "zpgatId": ['', Validators.required],
       "clientId": [''],
       "villageName": [''],
-      "personName": ['', [Validators.required]],
-      "leadername": ['', [Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]],
+      "personName": ['', [Validators.required ,Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]],
+      "leadername": ['', [Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
       "leaderMobileNo": ['', [Validators.required,Validators.pattern('[6-9]\\d{9}')]],
-      "vicLeadername": ['', [Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]],
+      "vicLeadername": ['', [Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
       "vicleadermobileNo": ['', [Validators.required,Validators.pattern('[6-9]\\d{9}')]],
       "memberName": [''],
       "memberMobileNo": [''],
@@ -84,13 +86,8 @@ export class MandalReigstrationComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === "200") {
           let dataArray = res.responseData;
-          dataArray.map((ele: any, ind: any) => {
-            if (id == ele.clientId) {
-              this.zpNameArr.push(ele);
-            }
-          })
-          this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "isCity": '', "clientId": 1 })
-          console.log(this.zpNameArr);
+          dataArray.map((ele: any) => { (id == ele.clientId) ? this.zpNameArr.push(ele):''})
+          this.zpNameArr.unshift({ "id": '', "zpgatName": "जिल्हा परिषद गट निवडा ", "isCity": '', "clientId": 1 })         
         } else {
           this.commonService.showError(res.statusMessage);
         }
@@ -100,8 +97,24 @@ export class MandalReigstrationComponent implements OnInit {
       })
     })
   }
-  villageHide: any;
-  wdf() {
+
+  getCompetitionType(){
+    this.apiService.setHttp('get', "api/Competition/GetCompetitionName", false, false, false, 'masterUrl');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === "200") {
+        this.competitionTypeArray = res.responseData;                
+        } else {
+          this.commonService.showError(res.statusMessage);
+        }
+      },
+      error: ((error: any) => {
+        this.error.handelError(error.status)
+      })
+    })
+  }
+
+  addRemoveValidationVillage() {
     let ZpNameid = this.registrationForm.value.zpgatId;
     this.zpNameArr.find((ele: any) => {
       (ZpNameid == ele.id) ? this.villageHide = ele.isCity : ''
@@ -115,7 +128,6 @@ export class MandalReigstrationComponent implements OnInit {
       this.registrationForm.get('villageName')?.setValidators([Validators.required]);
       this.registrationForm.controls["villageName"].updateValueAndValidity();
     }
-
   }
 
   addMember() {
@@ -142,7 +154,7 @@ export class MandalReigstrationComponent implements OnInit {
   }
 
   addMemberValidation(){
-    this.registrationForm.get('memberName')?.setValidators([Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
+    this.registrationForm.get('memberName')?.setValidators([Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]);
     this.registrationForm.controls["memberName"].updateValueAndValidity();
     this.registrationForm.get('memberMobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
     this.registrationForm.controls["memberMobileNo"].updateValueAndValidity();
@@ -177,13 +189,13 @@ export class MandalReigstrationComponent implements OnInit {
       this.registrationForm.controls["selfPersonMobile"].clearValidators();
       this.registrationForm.controls["selfPersonMobile"].updateValueAndValidity();
 
-      this.registrationForm.get('personName')?.setValidators([Validators.required]);
+      this.registrationForm.get('personName')?.setValidators([Validators.required ,Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
       this.registrationForm.controls["personName"].updateValueAndValidity();
-      this.registrationForm.get('leadername')?.setValidators([Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
+      this.registrationForm.get('leadername')?.setValidators([Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]);
       this.registrationForm.controls["leadername"].updateValueAndValidity();
       this.registrationForm.get('leaderMobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
       this.registrationForm.controls["leaderMobileNo"].updateValueAndValidity();
-      this.registrationForm.get('vicLeadername')?.setValidators([Validators.required, Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
+      this.registrationForm.get('vicLeadername')?.setValidators([Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]);
       this.registrationForm.controls["vicLeadername"].updateValueAndValidity();
       this.registrationForm.get('vicleadermobileNo')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
       this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
@@ -206,7 +218,7 @@ export class MandalReigstrationComponent implements OnInit {
       this.registrationForm.controls["vicleadermobileNo"].clearValidators();
       this.registrationForm.controls["vicleadermobileNo"].updateValueAndValidity();
 
-      this.registrationForm.get('selfPersonName')?.setValidators([Validators.required]);
+      this.registrationForm.get('selfPersonName')?.setValidators([Validators.required ,Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
       this.registrationForm.controls["selfPersonName"].updateValueAndValidity();
       this.registrationForm.get('selfPersonMobile')?.setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
       this.registrationForm.controls["selfPersonMobile"].updateValueAndValidity();
@@ -301,7 +313,7 @@ export class MandalReigstrationComponent implements OnInit {
     }
     this.spinner.show();
     this.sendPayObj = obj;
-    this.apiService.setHttp('post', "api/Competition", false, obj, false, 'masterUrl');
+    this.apiService.setHttp('post', "api/Competition/Competition", false, obj, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
@@ -445,12 +457,15 @@ export class MandalReigstrationComponent implements OnInit {
         responseHandler: (BOLT: any) => {
           if (BOLT.response.txnStatus != "CANCEL") {
             let boltResponse = BOLT.response;
-            if (boltResponse.status == "success" || boltResponse.status == "failure") {
+            if (boltResponse.status == "success") {
               this.commonService.showSuccess("Payment Success.");
-              this.openSuccessModel.nativeElement.click();
-              this.resetForm();
+              this.openSuccessModel.nativeElement.click();             
               //API Calling
               this.updatePaymentStatus(userId, boltResponse);
+              this.resetForm();
+            } else {
+              this.commonService.showError("Payment Failed");
+             
             }
           } else {
             let boltResponse = BOLT.response;
